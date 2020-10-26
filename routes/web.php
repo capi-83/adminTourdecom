@@ -12,11 +12,11 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Auth::routes(['register' => false]);
 
 Route::get('/', function () {
     return redirect()->route('dashboard');
 });
 
-Auth::routes(['register' => false]);
 
 Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
