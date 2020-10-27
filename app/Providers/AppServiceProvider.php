@@ -23,6 +23,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Blade::if('admin', function () {
+            return auth()->user()->role === 'superadmin' || auth()->user()->role === 'commandant';
+        });
+
     }
 }
