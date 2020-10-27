@@ -66,14 +66,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </li>
             <li class="nav-item dropdown user-menu">
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+                    @if (auth()->user()->email)
                     <img src="{{ Gravatar::get(auth()->user()->email) }}" class="user-image img-circle elevation-2" alt="User Image">
+                    @endif
                     <span class="d-none d-md-inline">Alphonse Topdeck</span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                     <!-- User image -->
                     <li class="user-header bg-primary">
+                        @if (auth()->user()->email)
                         <img src="{{ Gravatar::get(auth()->user()->email) }}" class="img-circle elevation-2" alt="User Image">
-
+                        @endif
                         <p>
                             Alphonse Topdeck - Deck Evaluator
                             <small>Member since Nov. 2020</small>
