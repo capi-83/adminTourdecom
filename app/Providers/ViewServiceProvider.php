@@ -1,0 +1,39 @@
+<?php
+
+
+namespace App\Providers;
+
+
+use App\Http\View\Composers\TitleComposer;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\ServiceProvider;
+
+class ViewServiceProvider extends ServiceProvider
+{
+    /**
+     * Register any application services.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        //
+    }
+
+    /**
+     * Bootstrap any application services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        View::composer(
+            '*', 'App\Http\View\Composers\TitleComposer'
+        );
+
+        view()->composer('*', function($view) {
+            $view->with('currentUser', \Auth::user());
+        });
+    }
+}

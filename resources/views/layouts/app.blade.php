@@ -14,6 +14,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <title>La Tour de Commandement</title>
 
+@yield('css')
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="/adminlte/plugins/fontawesome-free/css/all.min.css">
     <!-- Theme style -->
@@ -21,13 +22,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 
-    @yield('css')
+
+    <link rel="stylesheet" href="/css/app.css">
+
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
 
     <!-- Navbar -->
-    <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+    <nav class="main-header navbar navbar-expand navbar-cyan navbar-light ">
         <!-- Left navbar links -->
         <ul class="navbar-nav">
             <li class="nav-item">
@@ -66,25 +69,35 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </li>
             <li class="nav-item dropdown user-menu">
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
-                    @if (auth()->user()->email)
-                    <img src="{{ Gravatar::get(auth()->user()->email) }}" class="user-image img-circle elevation-2" alt="User Image">
+                    @if ($currentUser->email)
+                    <img src="{{ Gravatar::get($currentUser->email) }}" class="user-image img-circle elevation-2" alt="User Image">
                     @endif
-                    <span class="d-none d-md-inline">Alphonse Topdeck</span>
+                    <span class="d-none d-md-inline">{{$currentUser->name}}</span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                     <!-- User image -->
-                    <li class="user-header bg-primary">
-                        @if (auth()->user()->email)
-                        <img src="{{ Gravatar::get(auth()->user()->email) }}" class="img-circle elevation-2" alt="User Image">
+                    <li class="user-header bg-cyan">
+                        @if ($currentUser->email)
+                        <img src="{{ Gravatar::get($currentUser->email) }}" class="img-circle elevation-2" alt="User Image">
                         @endif
                         <p>
-                            Alphonse Topdeck - Deck Evaluator
-                            <small>Member since Nov. 2020</small>
+                            @foreach($currentUser->getRoles() as $role)
+
+                                @if( $loop->index > 0)
+                                    ...
+                                    @break
+                                @endif
+                                {{ \App\Role\UserRole::getHumanRole($role) }}
+                                @if( ! $loop->last)
+                                     |
+                                @endif
+                            @endforeach
+                            <small>{{ date('d-m-Y') }}</small>
                         </p>
                     </li>
                     <!-- Menu Footer-->
                     <li class="user-footer">
-                        <a href="#" class="btn btn-default btn-flat">Profile</a>
+                        <a href="{{ route('myProfile.my-account', $currentUser)}}" class="btn btn-default btn-flat">Profile</a>
                         <a href="{{ route('logout') }}"  onclick="event.preventDefault();
                     document.getElementById('logout-form').submit();" class="btn btn-default btn-flat float-right">Sign out</a>
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -100,8 +113,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
         <!-- Brand Logo -->
-        <a href="{{ route('dashboard') }}" class="brand-link">
-            <img src="images/tdc.jpg" alt="Tour de commandement Logo" class="brand-image img-circle elevation-3"
+        <a href="{{ route('dashboard') }}" class="brand-link bg-cyan">
+            <img src="/images/tdc.jpg" alt="Tour de commandement Logo" class="brand-image img-circle elevation-3"
                  style="opacity: .8">
             <span class="brand-text font-weight-light">Admin de la Tour</span>
         </a>
@@ -114,9 +127,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     data-accordion="false">
                     <!-- Add icons to the links using the .nav-icon class
                          with font-awesome or any other icon font library -->
-                    <li class="nav-item has-treeview menu-open">
+                    <li class="nav-item">
+                        <a href="{{ route('dashboard') }}" class="nav-link {{ (Route::currentRouteName() === 'dashboard') ? 'active bg-cyan' : '' }}">
+                            <i class="nav-icon fas fa-home"></i>
+                            <p>
+                                Dashboard
+                            </p>
+                        </a>
+                    </li>
+                    @if(\App\Role\RoleChecker::check($currentUser,\App\Role\UserRole::ROLE_GARDIEN))
+                    <li class="nav-item has-treeview {{ ( Request::routeIs('profile*') && ! Request::routeIs('profile*edit'))  ? 'menu-open' : 'menu-close' }} ">
                         <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-tachometer-alt"></i>
+                            <i class="nav-icon fas fa-users"></i>
                             <p>
                                 Utilisateurs
                                 <i class="right fas fa-angle-left"></i>
@@ -124,19 +146,22 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="#" class="nav-link ">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Active Page</p>
+                                <a href="{{ route('profile.index') }}" class="nav-link {{ (Route::currentRouteName() === 'profile.index') ? 'active bg-cyan' : '' }}">
+                                    <i class="fas fa-address-book nav-icon"></i>
+                                    <p>List utilisateurs</p>
                                 </a>
                             </li>
+                            @if(\App\Role\RoleChecker::check($currentUser,\App\Role\UserRole::ROLE_COMMANDANT))
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Inactive Page</p>
+                                <a href="{{ route('profile.create') }}" class="nav-link {{ (Route::currentRouteName() === 'profile.create') ? 'active bg-cyan' : '' }}">
+                                    <i class="fas fa-user-plus nav-icon"></i>
+                                    <p>Ajouter un utilisateurs</p>
                                 </a>
                             </li>
+                            @endif
                         </ul>
                     </li>
+                        @endif;
                 </ul>
             </nav>
             <!-- /.sidebar-menu -->
@@ -151,7 +176,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0 text-dark">Starter Page</h1>
+                        <h1 class="m-0 text-dark">{{ $title }}</h1>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
             </div><!-- /.container-fluid -->
@@ -161,6 +186,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- Main content -->
         <div class="content">
             <div class="container-fluid">
+                @if (session('msg-error'))
+                    <div class="alert alert-danger">
+                        {{ session('msg-error') }}
+                    </div>
+                @endif
+                @if (session('msg-valid'))
+                    <div class="alert alert-success">
+                        {{ session('msg-valid') }}
+                    </div>
+                @endif
                 @yield('content')
             </div><!-- /.container-fluid -->
         </div>
@@ -174,9 +209,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
             When defeat is near and guidance is scarce, all eyes look in one direction
         </div>
         <!-- Default to the left -->
-        <strong>Copyright &copy; 2020 .</strong> All rights reserved.
+        <strong>Copyright &copy; {{ date('Y') }} .</strong> All rights reserved.
     </footer>
 </div>
+<section id="loading">
+    <div id="loading-content"></div>
+</section>
 <!-- ./wrapper -->
 
 <!-- REQUIRED SCRIPTS -->
@@ -187,6 +225,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="/adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
 <script src="/adminlte/js/adminlte.min.js"></script>
+<script src="{{ asset('js/spinner.js') }}"></script>
 @yield('js')
 </body>
 </html>
