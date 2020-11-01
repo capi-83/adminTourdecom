@@ -125,16 +125,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <nav class="mt-2">
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                     data-accordion="false">
-                    <!-- Add icons to the links using the .nav-icon class
-                         with font-awesome or any other icon font library -->
-                    <li class="nav-item">
-                        <a href="{{ route('dashboard') }}" class="nav-link {{ (Route::currentRouteName() === 'dashboard') ? 'active bg-cyan' : '' }}">
-                            <i class="nav-icon fas fa-home"></i>
-                            <p>
-                                Dashboard
-                            </p>
-                        </a>
-                    </li>
+                    <x-menu-item href="{{ route('dashboard') }}" :sub=false icon="home" active="{{ Route::currentRouteName() === 'dashboard' }}">
+                        Dashboard
+                    </x-menu-item>
                     @if(\App\Role\RoleChecker::check($currentUser,\App\Role\UserRole::ROLE_GARDIEN))
                     <li class="nav-item has-treeview {{ ( Request::routeIs('profile*') && ! Request::routeIs('profile*edit'))  ? 'menu-open' : 'menu-close' }} ">
                         <a href="#" class="nav-link">
@@ -145,19 +138,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="{{ route('profile.index') }}" class="nav-link {{ (Route::currentRouteName() === 'profile.index') ? 'active bg-cyan' : '' }}">
-                                    <i class="fas fa-address-book nav-icon"></i>
-                                    <p>List utilisateurs</p>
-                                </a>
-                            </li>
+                            <x-menu-item href="{{ route('profile.index') }}" :sub=false icon="address-book" active="{{ Route::currentRouteName() === 'profile.index' }}">
+                                Clients
+                            </x-menu-item>
                             @if(\App\Role\RoleChecker::check($currentUser,\App\Role\UserRole::ROLE_COMMANDANT))
-                            <li class="nav-item">
-                                <a href="{{ route('profile.create') }}" class="nav-link {{ (Route::currentRouteName() === 'profile.create') ? 'active bg-cyan' : '' }}">
-                                    <i class="fas fa-user-plus nav-icon"></i>
-                                    <p>Ajouter un utilisateurs</p>
-                                </a>
-                            </li>
+                                <x-menu-item href="{{ route('profile.create') }}" :sub=false icon="user-plus" active="{{ Route::currentRouteName() === 'profile.create' }}">
+                                    Ajouter un utilisateurs
+                                </x-menu-item>
                             @endif
                         </ul>
                     </li>
