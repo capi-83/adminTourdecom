@@ -24,49 +24,34 @@
                         </div>
                     </div>
                     <div class="card-body">
+                        <x-input
+                            name="name"
+                            label="Pseudo"
+                            disabled="{{$disabled || (isset($specificRights['name']) && !$specificRights['name'])}}"
+                            value="{{ (old('name'))?old('name'): $user->name }}"
+                        />
+                        <x-input
+                            name="email"
+                            label="Email address"
+                            disabled="{{$disabled || (isset($specificRights['email']) && !$specificRights['email'])}}"
+                            value="{{ (old('email'))?old('email'): $user->email }}"
+                        />
+                        <x-input
+                            name="password"
+                            label="Password"
+                            type="password"
+                            disabled="{{$disabled || (isset($specificRights['password']) && !$specificRights['password'])}}"
+                            value=""
+                        />
+                        <x-input
+                            name="password_confirmation"
+                            label="Confirm Password"
+                            type="password"
+                            disabled="{{$disabled || (isset($specificRights['password']) && !$specificRights['password'])}}"
+                            value=""
+                        />
                         <div class="form-group">
-                            <label for="name">Pseudo</label>
-                            <input type="text" class="form-control @error('name') is-invalid @enderror"
-                                   @if($disabled || (isset($specificRights['name']) && !$specificRights['name']))
-                                        disabled
-                                   @endif
-                                   value="{{ (old('name'))?old('name'): $user->name }}" name="name" id="name">
-                            @error('name')
-                            <span class="invalid-feedback" role="alert">
-                             <strong>{{ $message }}</strong>
-                        </span>
-                            @enderror
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email address</label>
-                            <input type="email" class="form-control @error('email') is-invalid @enderror"
-                                   @if($disabled || (isset($specificRights['email']) && !$specificRights['email'])) disabled @endif
-                                   id="email" name="email" value="{{ (old('email'))?old('email'): $user->email }}">
-                            @error('email')
-                            <span class="invalid-feedback" role="alert">
-                             <strong>{{ $message }}</strong>
-                        </span>
-                            @enderror
-                        </div>
-                        <div class="form-group">
-                            <label for="password ">Password</label>
-                            <input type="password" class="form-control  @error('password') is-invalid @enderror"
-                                   id="password" name="password" placeholder="Password"
-                                   @if($disabled || (isset($specificRights['password']) && !$specificRights['password'])) disabled @endif>
-                            @error('Password')
-                            <span class="invalid-feedback" role="alert">
-                             <strong>{{ $message }}</strong>
-                        </span>
-                            @enderror
-                        </div>
-                        <div class="form-group">
-                            <label for="confirm-password">Confirm Password</label>
-                            <input type="password" class="form-control @error('password') is-invalid @enderror"
-                                   id="confirm-password" name="password_confirmation" placeholder="Password"
-                                   @if($disabled || (isset($specificRights['password']) && !$specificRights['password'])) disabled @endif>
-                        </div>
-                        <div class="form-group">
-                            <label>Rôles:</label>
+                            <label>Rôles</label>
                             <select class="select2" name="roles[]"
                                     @if($disabled || (isset($specificRights['roles']) && !$specificRights['roles'])) disabled @endif
                                     multiple="multiple" data-placeholder="Select a role"
@@ -110,40 +95,24 @@
                     <div class="card-body">
                         <img src="{{ Gravatar::get($user->email) }}" class="img-circle elevation-2" alt="User Image">
                         <p>Modifier votre avatar: <a target="_blank" href="http://fr.gravatar.com/">Gravatar</a></p>
-                        <div class="form-group">
-                            <label for="discordTag">Discord</label>
-                            <input type="text" class="form-control @error('discordTag') is-invalid @enderror"
-                                   @if($disabled || (isset($specificRights['discordTag']) && !$specificRights['discordTag'])) disabled @endif
-                                   value="{{ (old('discordTag'))?old('discordTag'): $user->discordTag }}"
-                                   id="discordTag" name="discordTag">
-                            @error('discordTag')
-                            <span class="invalid-feedback" role="alert">
-                             <strong>{{ $message }}</strong>
-                        </span>
-                            @enderror
-                        </div>
-                        <div class="form-group">
-                            <label for="twitter">Twitter</label>
-                            <input type="text" class="form-control @error('twitter') is-invalid @enderror"
-                                   @if($disabled || (isset($specificRights['twitter']) && !$specificRights['twitter'])) disabled @endif
-                                   id="twitter" name="twitter" value="{{ (old('twitter'))?old('twitter'): $user->twitter }}">
-                            @error('twitter')
-                            <span class="invalid-feedback" role="alert">
-                             <strong>{{ $message }}</strong>
-                        </span>
-                            @enderror
-                        </div>
-                        <div class="form-group">
-                            <label for="mtgaTag ">Mtga</label>
-                            <input type="text" class="form-control  @error('mtgaTag') is-invalid @enderror"
-                                   id="mtgaTag" name="mtgaTag" value="{{ (old('mtgaTag'))?old('mtgaTag'): $user->mtgaTag }}"
-                                   @if($disabled || (isset($specificRights['mtgaTag']) && !$specificRights['mtgaTag'])) disabled @endif>
-                            @error('mtgaTag')
-                            <span class="invalid-feedback" role="alert">
-                             <strong>{{ $message }}</strong>
-                        </span>
-                            @enderror
-                        </div>
+                        <x-input
+                            name="discordTag"
+                            label="Discord"
+                            disabled="{{$disabled || (isset($specificRights['discordTag']) && !$specificRights['discordTag'])}}"
+                            value="{{ (old('discordTag'))?old('discordTag'): $user->discordTag }}"
+                        />
+                        <x-input
+                            name="twitter"
+                            label="Twitter"
+                            disabled="{{$disabled || (isset($specificRights['twitter']) && !$specificRights['twitter'])}}"
+                            value="{{ (old('twitter'))?old('twitter'): $user->twitter }}"
+                        />
+                        <x-input
+                            name="mtgaTag"
+                            label="Mtga"
+                            disabled="{{$disabled || (isset($specificRights['mtgaTag']) && !$specificRights['mtgaTag'])}}"
+                            value="{{ (old('mtgaTag'))?old('mtgaTag'): $user->mtgaTag }}"
+                        />
                     </div>
                 </div>
             </div>

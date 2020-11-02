@@ -10,41 +10,32 @@
                         <h3 class="card-title">Ajouter un utilisateur</h3>
                     </div>
                     <div class="card-body">
-                        <div class="form-group">
-                            <label for="name">Pseudo</label>
-                            <input type="text" class="form-control @error('name') is-invalid @enderror"
-                                   value="{{ old('name')}}" name="name" id="name">
-                            @error('name')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email address</label>
-                            <input type="email" class="form-control @error('email') is-invalid @enderror"
-                                   id="email"  name="email" value="{{old('email')}}">
-                            @error('email')
-                            <span class="invalid-feedback" role="alert">
-                             <strong>{{ $message }}</strong>
-                        </span>
-                            @enderror
-                        </div>
-                        <div class="form-group">
-                            <label for="password ">Password</label>
-                            <input type="password" class="form-control  @error('password') is-invalid @enderror"
-                                   id="password" name="password" placeholder="Password">
-                            @error('Password')
-                            <span class="invalid-feedback" role="alert">
-                             <strong>{{ $message }}</strong>
-                        </span>
-                            @enderror
-                        </div>
-                        <div class="form-group">
-                            <label for="confirm-password">Confirm Password</label>
-                            <input type="password" class="form-control @error('password') is-invalid @enderror"
-                                   id="confirm-password" name="password_confirmation" placeholder="Password">
-                        </div>
+                        <x-input
+                            name="name"
+                            label="Pseudo"
+                            :disabled=false
+                            value="{{ old('name')}}"
+                        />
+                        <x-input
+                            name="email"
+                            label="Email address"
+                            :disabled=false
+                            value="{{ old('email')}}"
+                        />
+                        <x-input
+                            name="password"
+                            label="Password"
+                            :disabled=false
+                            type="password"
+                            value=""
+                        />
+                        <x-input
+                            name="password_confirmation"
+                            label="Confirm Password"
+                            :disabled=false
+                            type="password"
+                            value=""
+                        />
                         <div class="form-group">
                             <label>Rôles:</label>
                             <select class="select2 @error('roles') is-invalid @enderror" name="roles[]"
