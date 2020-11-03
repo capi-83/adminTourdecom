@@ -34,7 +34,7 @@ class NotificationsController extends Controller
 
 
         return view('notifications.list',
-            ['userNotifications'=> $user->notifications()->where('type','App\Notifications\UsersNotification')]);
+            ['userNotifications'=> $user->notification->where('type','App\Notifications\UsersNotification')]);
     }
 
     /**
