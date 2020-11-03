@@ -8,7 +8,7 @@
                     <h3 class="card-title">Admins</h3>
                 </div>
                 <div class="card-body">
-                    <table id="admins" class="table table-bordered table-hover">
+                    <table id="admins" style="display:none;" class="table table-bordered table-hover">
                         <thead>
                         <tr>
                             <th>name</th>
@@ -22,29 +22,29 @@
                         </thead>
                         <tbody>
                         @foreach($admins as $user)
-                                <tr data-href="{{ route('profile.edit',$user) }}"  class="@if($user->disabled) bg-gradient-danger @endif">
-                                    <td>{{$user->name}}</td>
-                                    <td><a target="_blank" href="mailto:{{$user->email}}">{{$user->email}}</a></td>
-                                    <td>{{$user->discordTag}}</td>
-                                    <td><a target="_blank" href="https://twitter.com/{{$user->twitter}}">{{$user->twitter}}</a></td>
-                                    <td>{{$user->mtgaTag}}</td>
-                                    <td>
-                                        @foreach($user->roles as $r)
-                                            {{\App\Role\UserRole::getHumanRole($r)}}
-                                            @if( ! $loop->last)
-                                                |
-                                            @endif
-                                        @endforeach
-                                    </td>
-                                    <td>
-                                        <span style="display:none;">{{$user->disabled}}</span>
-                                        @if($user->disabled)
-                                            <i class="fas fa-user-times"></i>
-                                        @else
-                                            <i class="fas fa-user"></i>
+                            <tr data-href="{{ route('profile.edit',$user) }}"  class="@if($user->disabled) bg-gradient-danger @endif">
+                                <td>{{$user->name}}</td>
+                                <td><a target="_blank" href="mailto:{{$user->email}}">{{$user->email}}</a></td>
+                                <td>{{$user->discordTag}}</td>
+                                <td><a target="_blank" href="https://twitter.com/{{$user->twitter}}">{{$user->twitter}}</a></td>
+                                <td>{{$user->mtgaTag}}</td>
+                                <td>
+                                    @foreach($user->roles as $r)
+                                        {{\App\Role\UserRole::getHumanRole($r)}}
+                                        @if( ! $loop->last)
+                                            |
                                         @endif
-                                    </td>
-                                </tr>
+                                    @endforeach
+                                </td>
+                                <td>
+                                    <span style="display:none;">{{$user->disabled}}</span>
+                                    @if($user->disabled)
+                                        <i class="fas fa-user-times"></i>
+                                    @else
+                                        <i class="fas fa-user"></i>
+                                    @endif
+                                </td>
+                            </tr>
                         @endforeach
                         </tbody>
                     </table>
@@ -55,7 +55,7 @@
                     <h3 class="card-title">Users</h3>
                 </div>
                 <div class="card-body">
-                    <table id="users" class="table table-bordered table-hover">
+                    <table id="users" style="display:none;" class="table table-bordered table-hover">
                         <thead>
                         <tr>
                             <th>name</th>
@@ -151,7 +151,10 @@
             $('#users').on('click', 'tbody tr', function() {
                 window.location.href = $(this).data('href');
             });
+
             $('tr').css('cursor','pointer');
+            $(`#admins`).show();
+            $(`#users`).show();
         })
     </script>
 @endsection
