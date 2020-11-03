@@ -22,6 +22,8 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
+    public $discord_webhook = "https://discordapp.com/api/webhooks/773134336793772032/FLfnhDFvSMQJuOh9rhK2zlf2-sE8q65eq3NL45VcFxU6pWCP7cQ1oIWzUKpjs13Glb1R";
+
     /**
      * The attributes that are mass assignable.
      *
@@ -54,6 +56,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'roles' => 'array',
     ];
+
+    public function routeNotificationForDiscord(): string
+    {
+        return $this->discord_webhook;
+    }
 
     public function scopeNotified($query)
     {

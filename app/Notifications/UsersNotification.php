@@ -7,6 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Auth;
+use SnoerenDevelopment\DiscordWebhook\DiscordWebhookChannel;
 
 class UsersNotification extends Notification
 {
@@ -21,18 +22,21 @@ class UsersNotification extends Notification
     private $fromUser;
     private $method;
     private $profil;
+    private $discord;
 
     /**
      * Create a new notification instance.
      *
      * @param $method
      * @param $profil
+     * @param bool $discord
      */
-    public function __construct($method, $profil)
+    public function __construct($method, $profil, $discord = false)
     {
         $this->fromUser = Auth::user();
         $this->method = $method;
         $this->profil = $profil;
+        $this->discord = $discord;
     }
 
     /**
@@ -43,7 +47,21 @@ class UsersNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['database'];
+        return ($this->discord)?[DiscordWebhookChannel::class]:['database'];
+    }
+
+    /**
+     * Get the Discord representation of the notification.
+     *
+     * @param  mixed $notifiable The notifiable model.
+     * @return array
+     */
+    public function toDiscord($notifiable): array
+    {
+        // See https://discordapp.com/developers/docs/resources/webhook#execute-webhook for all options.
+        return [
+            'content' => $this->fromUser['name'] . ' => ' . $this->method . ' - '. $this->profil['name'].' - '. $this->profil['email']
+        ];
     }
 
     /**
