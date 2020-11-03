@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7b56bfb5d21eaae286e532c3ed2f8941",
+    "content-hash": "2b8a098ed5606f02d9a902d896b7c633",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -103,6 +103,65 @@
                 "math"
             ],
             "time": "2020-08-18T23:57:15+00:00"
+        },
+        {
+            "name": "creativeorange/gravatar",
+            "version": "v1.0.20",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/creativeorange/gravatar.git",
+                "reference": "8c2c1a3a59fdf05f50c9d9413dd9d2d50835e017"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/creativeorange/gravatar/zipball/8c2c1a3a59fdf05f50c9d9413dd9d2d50835e017",
+                "reference": "8c2c1a3a59fdf05f50c9d9413dd9d2d50835e017",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^5|^6|^7|^8",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "nunomaduro/larastan": "^0.6.2",
+                "orchestra/testbench": "^5.4",
+                "php": ">=7.2"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Creativeorange\\Gravatar\\GravatarServiceProvider"
+                    ],
+                    "aliases": {
+                        "Gravatar": "Creativeorange\\Gravatar\\Facades\\Gravatar"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Creativeorange\\Gravatar\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jaco Tijssen",
+                    "email": "jaco@creativeorange.nl",
+                    "homepage": "https://www.creativeorange.nl",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A Laravel Gravatar package for retrieving gravatar image URLs or checking the existance of an image.",
+            "keywords": [
+                "avatar",
+                "gravatar",
+                "laravel"
+            ],
+            "time": "2020-09-09T14:53:57+00:00"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -756,6 +815,47 @@
                 "url"
             ],
             "time": "2020-09-30T07:37:11+00:00"
+        },
+        {
+            "name": "laravel-lang/lang",
+            "version": "7.0.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Laravel-Lang/lang.git",
+                "reference": "c1519eb78139869ab8829912adde5f58ca09552f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Laravel-Lang/lang/zipball/c1519eb78139869ab8829912adde5f58ca09552f",
+                "reference": "c1519eb78139869ab8829912adde5f58ca09552f",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*"
+            },
+            "suggest": {
+                "andrey-helldar/laravel-lang-publisher": "Easy installation and update of translation files for your project",
+                "arcanedev/laravel-lang": "Translations manager and checker for Laravel 5",
+                "overtrue/laravel-lang": "Command to add languages in your project"
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Laravel-Lang Team"
+                }
+            ],
+            "description": "Languages for Laravel",
+            "keywords": [
+                "lang",
+                "languages",
+                "laravel",
+                "lpm"
+            ],
+            "time": "2020-10-11T08:55:55+00:00"
         },
         {
             "name": "laravel/framework",
@@ -2096,6 +2196,57 @@
                 "uuid"
             ],
             "time": "2020-08-18T17:17:46+00:00"
+        },
+        {
+            "name": "snoeren-development/laravel-discord-webhook-channel",
+            "version": "v1.1.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/snoeren-development/laravel-discord-webhook-channel.git",
+                "reference": "32e981d008b69e52049a99a19332c6ae722b7d9d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/snoeren-development/laravel-discord-webhook-channel/zipball/32e981d008b69e52049a99a19332c6ae722b7d9d",
+                "reference": "32e981d008b69e52049a99a19332c6ae722b7d9d",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^7.0|^6.5",
+                "illuminate/support": "^8.0|^7.0|^6.0",
+                "php": "^7.2"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^6.0",
+                "phpunit/phpunit": "^8.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SnoerenDevelopment\\DiscordWebhook\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Snoeren Development",
+                    "email": "info@snoerendevelopment.nl"
+                }
+            ],
+            "description": "Send notifications to a Discord webhook.",
+            "homepage": "https://github.com/snoeren-development/laravel-discord-webhook-channel",
+            "keywords": [
+                "discord",
+                "driver",
+                "laravel",
+                "notification",
+                "snoeren",
+                "webhook"
+            ],
+            "time": "2020-10-18T06:32:20+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -4538,6 +4689,60 @@
                 "test"
             ],
             "time": "2020-07-09T08:09:16+00:00"
+        },
+        {
+            "name": "laravel/ui",
+            "version": "v3.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/ui.git",
+                "reference": "ff6af4f0bc5a5bfe73352cdc03dbfffc4ace92d8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/ui/zipball/ff6af4f0bc5a5bfe73352cdc03dbfffc4ace92d8",
+                "reference": "ff6af4f0bc5a5bfe73352cdc03dbfffc4ace92d8",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/console": "^8.0",
+                "illuminate/filesystem": "^8.0",
+                "illuminate/support": "^8.0",
+                "php": "^7.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.x-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Laravel\\Ui\\UiServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Laravel\\Ui\\": "src/",
+                    "Illuminate\\Foundation\\Auth\\": "auth-backend/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylor@laravel.com"
+                }
+            ],
+            "description": "Laravel UI utilities and presets.",
+            "keywords": [
+                "laravel",
+                "ui"
+            ],
+            "time": "2020-09-11T15:34:08+00:00"
         },
         {
             "name": "mockery/mockery",
