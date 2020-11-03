@@ -217,8 +217,10 @@ class ProfileController extends Controller
 
         if ($user->save()) {
 
+            $currentUser = Auth::user();
             $users = User::notified()->get();
             Notification::send($users,new UsersNotification(UsersNotification::USER_CREATED,$user));
+            $currentUser->notify(new UsersNotification(UsersNotification::USER_CREATED,$user,true));
 
             return back()->with('msg-valid', __('Yes !'));
         } else {
@@ -257,8 +259,10 @@ class ProfileController extends Controller
 
         if ($user->save()) {
 
+            $currentUser = Auth::user();
             $users = User::notified()->get();
             Notification::send($users,new UsersNotification(UsersNotification::USER_UPDATED,$user));
+            $currentUser->notify(new UsersNotification(UsersNotification::USER_UPDATED,$user,true));
 
             return back()->with('msg-valid', __('Yes !'));
         } else {
@@ -286,6 +290,7 @@ class ProfileController extends Controller
 
                         $users = User::notified()->get();
                         Notification::send($users,new UsersNotification($method,$user));
+                        $currentUser->notify(new UsersNotification($method,$user,true));
 
                         return back()->with('msg-valid', __('Yes !'));
                     } else {
@@ -316,6 +321,7 @@ class ProfileController extends Controller
 
                         $users = User::notified()->get();
                         Notification::send($users,new UsersNotification(UsersNotification::USER_DELETED,$user));
+                        $currentUser->notify(new UsersNotification($method,$user,true));
 
                         return redirect()->route('profile.index')->with('msg-valid', __('Yes !'));
                     } else {
