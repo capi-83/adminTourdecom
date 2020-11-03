@@ -6,6 +6,15 @@
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Utilisateurs</h3>
+                    @if($userNotifications->count())
+                        <div class="card-tools">
+                            <a href="{{route('notifications.clear','users')}}">
+                            <span class="badge badge-danger">
+                                clear all <i class="fas fa-trash"></i>
+                            </span>
+                            </a>
+                        </div>
+                    @endif
                 </div>
                 <div class="card-body p-0">
                     <table class="table table-sm">

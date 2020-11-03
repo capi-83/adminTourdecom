@@ -45,4 +45,5 @@ Route::group(['middleware'=>['check_user_role:' . UserRole::ROLE_GARDIEN]],funct
 Route::group(['middleware'=>['check_user_role:' . UserRole::ROLE_MEMBRE.',false']],function () {
     Route::get('/notifications', [NotificationsController::class,'index'])->name('notifications.index');
     Route::get('/notifications/readall',[NotificationsController::class,'readAllNotifications'])->name('notifications.readAll');
+    Route::get('/notifications/clear/{type}',[NotificationsController::class,'clear'])->name('notifications.clear');
 });
