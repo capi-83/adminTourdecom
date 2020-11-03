@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\ResponseObject;
 use App\Models\User;
+use App\Notifications\UsersNotification;
 use App\Role\RoleChecker;
 use App\Role\UserRole;
 use Exception;
@@ -12,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Notification;
 
 class ProfileController extends Controller
 {
@@ -214,6 +216,10 @@ class ProfileController extends Controller
         $user->setRoles($request->roles);
 
         if ($user->save()) {
+
+            $users = User::notified()->get();
+            Notification::send($users,new UsersNotification(UsersNotification::USER_CREATED,$user));
+
             return back()->with('msg-valid', __('Yes !'));
         } else {
             return back()->with('msg-valid', __('Nop !'));
@@ -250,6 +256,10 @@ class ProfileController extends Controller
         $user->setRoles($request->roles);
 
         if ($user->save()) {
+
+            $users = User::notified()->get();
+            Notification::send($users,new UsersNotification(UsersNotification::USER_UPDATED,$user));
+
             return back()->with('msg-valid', __('Yes !'));
         } else {
             return back()->with('msg-valid', __('Nop !'));
@@ -272,6 +282,11 @@ class ProfileController extends Controller
                 if($rv === 'disabled') {
                     $user->toggleDisabled();
                     if ($user->save()) {
+                        $method = ($user->disabled)?UsersNotification::USER_DISABLED:UsersNotification::USER_ENABLED;
+
+                        $users = User::notified()->get();
+                        Notification::send($users,new UsersNotification($method,$user));
+
                         return back()->with('msg-valid', __('Yes !'));
                     } else {
                         return back()->with('msg-valid', __('Nop !'));
@@ -298,6 +313,10 @@ class ProfileController extends Controller
             if(RoleChecker::check($currentUser,$rk)) {
                 if($rv === 'delete') {
                     if ($user->delete()) {
+
+                        $users = User::notified()->get();
+                        Notification::send($users,new UsersNotification(UsersNotification::USER_DELETED,$user));
+
                         return redirect()->route('profile.index')->with('msg-valid', __('Yes !'));
                     } else {
                         return back()->with('msg-valid', __('Nop !'));

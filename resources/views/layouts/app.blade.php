@@ -3,7 +3,7 @@
 This is a starter template page. Use this page to start your new project from
 scratch. This page gets rid of all links and provides the needed markup only.
 -->
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,6 +17,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 @yield('css')
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="/adminlte/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="/adminlte/css/adminlte.min.css">
     <!-- Google Font: Source Sans Pro -->
@@ -30,42 +31,30 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <div class="wrapper">
 
     <!-- Navbar -->
-    <nav class="main-header navbar navbar-expand navbar-cyan navbar-light ">
+    <nav class="main-header navbar navbar-expand navbar-white navbar-light ">
         <!-- Left navbar links -->
         <ul class="navbar-nav">
             <li class="nav-item">
                 <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
             </li>
         </ul>
-
-        <!-- Right navbar links -->
         <ul class="navbar-nav ml-auto">
-            <!-- Notifications Dropdown Menu -->
-            <li class="nav-item dropdown">
+        <!-- Right navbar links -->
+
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown  user-men">
                 <a class="nav-link" data-toggle="dropdown" href="#">
                     <i class="far fa-bell"></i>
-{{--                    <span class="badge badge-warning navbar-badge">0</span>--}}
+                    <span style="font-size:60%; margin-right:-5px;" class="badge badge-warning navbar-badge">{{ $countNotifications }}</span>
                 </a>
-{{--                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">--}}
-{{--                    <span class="dropdown-header">15 Notifications</span>--}}
-{{--                    <div class="dropdown-divider"></div>--}}
-{{--                    <a href="#" class="dropdown-item">--}}
-{{--                        <i class="fas fa-envelope mr-2"></i> 4 new messages--}}
-{{--                        <span class="float-right text-muted text-sm">3 mins</span>--}}
-{{--                    </a>--}}
-{{--                    <div class="dropdown-divider"></div>--}}
-{{--                    <a href="#" class="dropdown-item">--}}
-{{--                        <i class="fas fa-users mr-2"></i> 8 friend requests--}}
-{{--                        <span class="float-right text-muted text-sm">12 hours</span>--}}
-{{--                    </a>--}}
-{{--                    <div class="dropdown-divider"></div>--}}
-{{--                    <a href="#" class="dropdown-item">--}}
-{{--                        <i class="fas fa-file mr-2"></i> 3 new reports--}}
-{{--                        <span class="float-right text-muted text-sm">2 days</span>--}}
-{{--                    </a>--}}
-{{--                    <div class="dropdown-divider"></div>--}}
-{{--                    <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>--}}
-{{--                </div>--}}
+                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                    <span class="dropdown-header">{{ $countNotifications }} Notifications non lu @if($countNotifications>0)- <a href="{{ route('notifications.readAll') }}">(Tout marquer comme lu)</a> @endif</span>
+                    @foreach($notifications as $notif)
+                        <x-navNotification count="{{$notif['count']}}" route="{{$notif['route']}}" icon="{{$notif['icon']}}"/>
+                    @endforeach
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
+                </div>
             </li>
             <li class="nav-item dropdown user-menu">
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
@@ -139,7 +128,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </a>
                         <ul class="nav nav-treeview">
                             <x-menu-item href="{{ route('profile.index') }}" :sub=false icon="address-book" active="{{ Route::currentRouteName() === 'profile.index' }}">
-                                Clients
+                                Utilisateurs
                             </x-menu-item>
                             @if(\App\Role\RoleChecker::check($currentUser,\App\Role\UserRole::ROLE_COMMANDANT))
                                 <x-menu-item href="{{ route('profile.create') }}" :sub=false icon="user-plus" active="{{ Route::currentRouteName() === 'profile.create' }}">
@@ -148,7 +137,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             @endif
                         </ul>
                     </li>
-                        @endif;
+                    @endif
+                    <x-menu-item href="{{ route('notifications.index') }}"
+                                 :sub=false
+                                 icon="bell"
+                                 active="{{ Route::currentRouteName() === 'notifications.index' }}"
+                                 badge="{{($countNotifications > 0)}}"
+                                 badgeIcon='warning'
+                                 badgeText="{{$countNotifications}}"
+
+                    >
+                        Notifications
+                    </x-menu-item>
                 </ul>
             </nav>
             <!-- /.sidebar-menu -->

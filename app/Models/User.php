@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Role\UserRole;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -53,6 +54,12 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'roles' => 'array',
     ];
+
+    public function scopeNotified($query)
+    {
+        return $query->where('roles','like','%'. UserRole::ROLE_GARDIEN . '%')->orWhere('roles','like','%'. UserRole::ROLE_SUPERADMIN. '%');
+    }
+
 
     /***
      * @param string $role

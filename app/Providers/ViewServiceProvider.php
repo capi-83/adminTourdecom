@@ -3,9 +3,6 @@
 
 namespace App\Providers;
 
-
-use App\Http\View\Composers\TitleComposer;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -30,6 +27,10 @@ class ViewServiceProvider extends ServiceProvider
     {
         View::composer(
             '*', 'App\Http\View\Composers\TitleComposer'
+        );
+
+        View::composer(
+            '*', 'App\Http\View\Composers\NotificationComposer'
         );
 
         view()->composer('*', function($view) {

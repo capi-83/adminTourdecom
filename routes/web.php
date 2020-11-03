@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\NotificationsController;
 use App\Role\UserRole;
 use Illuminate\Support\Facades\Route;
 
@@ -39,4 +40,9 @@ Route::group(['middleware'=>['check_user_role:' . UserRole::ROLE_GARDIEN]],funct
     Route::post('/profile/store', [ProfileController::class,'store'])->name('profile.store');
     Route::get('/profile/{user}/disabled', [ProfileController::class,'disabled'])->name('profile.disabled');
     Route::get('/profile/{user}/delete', [ProfileController::class,'destroy'])->name('profile.delete');
+});
+
+Route::group(['middleware'=>['check_user_role:' . UserRole::ROLE_MEMBRE.',false']],function () {
+    Route::get('/notifications', [NotificationsController::class,'index'])->name('notifications.index');
+    Route::get('/notifications/readall',[NotificationsController::class,'readAllNotifications'])->name('notifications.readAll');
 });
