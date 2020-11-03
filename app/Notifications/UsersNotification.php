@@ -60,7 +60,7 @@ class UsersNotification extends Notification
     {
         // See https://discordapp.com/developers/docs/resources/webhook#execute-webhook for all options.
         return [
-            'content' => $this->fromUser['name'] . ' => ' . $this->method . ' - '. $this->profil['name'].' - '. $this->profil['email']
+            'content' => '***'.$this->fromUser['name'] . '*** => ' . $this->method . ' - **'. $this->profil['name'].'** - '. $this->profil['email']
         ];
     }
 

@@ -7,6 +7,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Config;
 
 /**
  * @property mixed id
@@ -21,8 +22,6 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
-
-    public $discord_webhook = "https://discordapp.com/api/webhooks/773134336793772032/FLfnhDFvSMQJuOh9rhK2zlf2-sE8q65eq3NL45VcFxU6pWCP7cQ1oIWzUKpjs13Glb1R";
 
     /**
      * The attributes that are mass assignable.
@@ -59,7 +58,7 @@ class User extends Authenticatable
 
     public function routeNotificationForDiscord(): string
     {
-        return $this->discord_webhook;
+        return Config::get('discord.discordWebhook');
     }
 
     public function scopeNotified($query)
