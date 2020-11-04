@@ -12,7 +12,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>La Tour de Commandement</title>
+    <title>{{__('main.title')}}</title>
 
 @yield('css')
     <!-- Font Awesome Icons -->
@@ -48,12 +48,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <span style="font-size:60%; margin-right:-5px;" class="badge badge-warning navbar-badge">{{ $countNotifications }}</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                    <span class="dropdown-header">{{ $countNotifications }} Notifications non lu @if($countNotifications>0)- <a href="{{ route('notifications.readAll') }}">(Tout marquer comme lu)</a> @endif</span>
+                    <span class="dropdown-header">{{ $countNotifications }} {{__('notification.notRead')}} @if($countNotifications>0)- <a href="{{ route('notifications.readAll') }}">(Tout marquer comme lu)</a> @endif</span>
                     @foreach($notifications as $notif)
                         <x-navNotification count="{{$notif['count']}}" route="{{$notif['route']}}" icon="{{$notif['icon']}}"/>
                     @endforeach
                     <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
+                    <a href="{{ route('notifications.index') }}" class="dropdown-item dropdown-footer">{{__('notification.seeAll')}}</a>
                 </div>
             </li>
             <li class="nav-item dropdown user-menu">
@@ -86,9 +86,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     </li>
                     <!-- Menu Footer-->
                     <li class="user-footer">
-                        <a href="{{ route('myProfile.my-account', $currentUser)}}" class="btn btn-default btn-flat">Profile</a>
+                        <a href="{{ route('myProfile.my-account', $currentUser)}}" class="btn btn-default btn-flat">{{__('main.myAccount')}}</a>
                         <a href="{{ route('logout') }}"  onclick="event.preventDefault();
-                    document.getElementById('logout-form').submit();" class="btn btn-default btn-flat float-right">Sign out</a>
+                    document.getElementById('logout-form').submit();" class="btn btn-default btn-flat float-right">{{__('main.logout')}}</a>
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                             @csrf
                         </form>
@@ -105,7 +105,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <a href="{{ route('dashboard') }}" class="brand-link bg-cyan">
             <img src="/images/tdc.jpg" alt="Tour de commandement Logo" class="brand-image img-circle elevation-3"
                  style="opacity: .8">
-            <span class="brand-text font-weight-light">Admin de la Tour</span>
+            <span class="brand-text font-weight-light">{{__('main.adminTitle.prefix')}} {{__('main.adminTitle.title')}}</span>
         </a>
 
         <!-- Sidebar -->
@@ -115,24 +115,24 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                     data-accordion="false">
                     <x-menu-item href="{{ route('dashboard') }}" :sub=false icon="home" active="{{ Route::currentRouteName() === 'dashboard' }}">
-                        Dashboard
+                        {{__('main.menu.dashboard')}}
                     </x-menu-item>
                     @if(\App\Role\RoleChecker::check($currentUser,\App\Role\UserRole::ROLE_GARDIEN))
                     <li class="nav-item has-treeview {{ ( Request::routeIs('profile*') && ! Request::routeIs('profile*edit'))  ? 'menu-open' : 'menu-close' }} ">
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-users"></i>
                             <p>
-                                Utilisateurs
+                                {{__('main.menu.users.title')}}
                                 <i class="right fas fa-angle-left"></i>
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
                             <x-menu-item href="{{ route('profile.index') }}" :sub=false icon="address-book" active="{{ Route::currentRouteName() === 'profile.index' }}">
-                                Utilisateurs
+                                {{__('main.menu.users.list')}}
                             </x-menu-item>
                             @if(\App\Role\RoleChecker::check($currentUser,\App\Role\UserRole::ROLE_COMMANDANT))
                                 <x-menu-item href="{{ route('profile.create') }}" :sub=false icon="user-plus" active="{{ Route::currentRouteName() === 'profile.create' }}">
-                                    Ajouter un utilisateurs
+                                    {{__('main.menu.users.add')}}
                                 </x-menu-item>
                             @endif
                         </ul>
@@ -147,7 +147,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                  badgeText="{{$countNotifications}}"
 
                     >
-                        Notifications
+                        {{__('main.menu.notification')}}
                     </x-menu-item>
                 </ul>
             </nav>
@@ -193,10 +193,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <footer class="main-footer">
         <!-- To the right -->
         <div class="float-right d-none d-sm-inline">
-            When defeat is near and guidance is scarce, all eyes look in one direction
+            {{__('main.footer.flevor')}}
         </div>
         <!-- Default to the left -->
-        <strong>Copyright &copy; {{ date('Y') }} .</strong> All rights reserved.
+        <strong>{{__('main.footer.copyright', ['date'=>date('Y')])}} </strong> {{__('main.footer.rights')}}
     </footer>
 </div>
 <section id="loading">

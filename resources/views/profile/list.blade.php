@@ -5,19 +5,19 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Admins</h3>
+                    <h3 class="card-title">{{__('profil.admins.title')}}</h3>
                 </div>
                 <div class="card-body">
                     <table id="admins" style="display:none;" class="table table-bordered table-hover">
                         <thead>
                         <tr>
-                            <th>name</th>
-                            <th>email</th>
-                            <th>discordTag</th>
-                            <th>twitter</th>
-                            <th>mtgaTag</th>
-                            <th>rôles</th>
-                            <th>disabled</th>
+                            <th>{{__('profil.table.name')}}</th>
+                            <th>{{__('profil.table.email')}}</th>
+                            <th>{{__('profil.table.discordTag')}}</th>
+                            <th>{{__('profil.table.twitter')}}</th>
+                            <th>{{__('profil.table.mtgaTag')}}</th>
+                            <th>{{__('profil.table.roles')}}</th>
+                            <th>{{__('profil.table.disabled')}}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -52,19 +52,18 @@
             </div>
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Users</h3>
+                    <h3 class="card-title">{{__('profil.users.title')}}</h3>
                 </div>
                 <div class="card-body">
                     <table id="users" style="display:none;" class="table table-bordered table-hover">
                         <thead>
                         <tr>
-                            <th>name</th>
-                            <th>email</th>
-                            <th>discordTag</th>
-                            <th>twitter</th>
-                            <th>mtgaTag</th>
-                            <th>rôles</th>
-                            <th>disabled</th>
+                            <th>{{__('profil.table.name')}}</th>
+                            <th>{{__('profil.table.email')}}</th>
+                            <th>{{__('profil.table.discordTag')}}</th>
+                            <th>{{__('profil.table.twitter')}}</th>
+                            <th>{{__('profil.table.mtgaTag')}}</th>
+                            <th>{{__('profil.table.disabled')}}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -75,11 +74,6 @@
                                 <td>{{$user->discordTag}}</td>
                                 <td><a target="_blank" href="https://twitter.com/{{$user->twitter}}">{{$user->twitter}}</a></td>
                                 <td>{{$user->mtgaTag}}</td>
-                                <td>
-                                    @foreach($user->roles as $r)
-                                        {{\App\Role\UserRole::getHumanRole($r)}}
-                                    @endforeach
-                                </td>
                                 <td>
                                     <span style="display:none;">{{$user->disabled}}</span>
                                     @if($user->disabled)
@@ -94,13 +88,12 @@
 
                         <tfoot>
                         <tr>
-                            <th>name</th>
-                            <th>email</th>
-                            <th>discordTag</th>
-                            <th>twitter</th>
-                            <th>mtgaTag</th>
-                            <th>rôles</th>
-                            <th>disabled</th>
+                            <th>{{__('profil.table.name')}}</th>
+                            <th>{{__('profil.table.email')}}</th>
+                            <th>{{__('profil.table.discordTag')}}</th>
+                            <th>{{__('profil.table.twitter')}}</th>
+                            <th>{{__('profil.table.mtgaTag')}}</th>
+                            <th>{{__('profil.table.disabled')}}</th>
                         </tr>
                         </tfoot>
                     </table>
