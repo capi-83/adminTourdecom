@@ -7,39 +7,39 @@
             <div class="col-6">
                 <div class="card">
                     <div class="card-header bg-light">
-                        <h3 class="card-title">Ajouter un utilisateur</h3>
+                        <h3 class="card-title">{{__('profil.add.title')}}</h3>
                     </div>
                     <div class="card-body">
                         <x-input
                             name="name"
-                            label="Pseudo"
+                            label="{{__('form.input.name')}}"
                             :disabled=false
                             value="{{ old('name')}}"
                         />
                         <x-input
                             name="email"
-                            label="Email address"
+                            label="{{__('form.input.email')}}"
                             :disabled=false
                             value="{{ old('email')}}"
                         />
                         <x-input
                             name="password"
-                            label="Password"
+                            label="{{__('form.input.password')}}"
                             :disabled=false
                             type="password"
                             value=""
                         />
                         <x-input
                             name="password_confirmation"
-                            label="Confirm Password"
+                            label="{{__('form.input.confirmPassord')}}"
                             :disabled=false
                             type="password"
                             value=""
                         />
                         <div class="form-group">
-                            <label>Rôles:</label>
+                            <label>{{__('form.input.role')}}</label>
                             <select class="select2 @error('roles') is-invalid @enderror" name="roles[]"
-                                    multiple="multiple" data-placeholder="Select a role"
+                                    multiple="multiple" data-placeholder="{{__('form.input.select')}}"
                                     style="width: 100%;">
                                     @foreach(\App\Role\UserRole::getRoleList() as $rk => $rv)
                                         <option
@@ -49,7 +49,7 @@
 
                             </select>
                         </div>
-                       <button type="submit" class="btn btn-success">Submit</button>
+                       <button type="submit" class="btn btn-success">{{__('profil.button.submit')}}</button>
                     </div>
                 </div>
             </div>

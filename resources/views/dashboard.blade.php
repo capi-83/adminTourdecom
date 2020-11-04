@@ -12,7 +12,7 @@
                 <div class="info-box mb-3">
                     <span class="info-box-icon bg-primary elevation-1"><i class="fas fa-users"></i></span>
                     <div class="info-box-content">
-                        <span class="info-box-text">Membres</span>
+                        <span class="info-box-text">{{__('dashboard.member')}}</span>
                         <span class="info-box-number">{{$totalUsers}}</span>
                     </div>
                 </div>
@@ -23,7 +23,7 @@
                 <div class="info-box mb-3">
                     <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-user-shield"></i></span>
                     <div class="info-box-content">
-                        <span class="info-box-text">Membres Admins</span>
+                        <span class="info-box-text">{{__('dashboard.adminMember')}}</span>
                         <span class="info-box-number">{{$admins}}</span>
                     </div>
                 </div>
@@ -37,7 +37,7 @@
                 <div class="info-box mb-3">
                     <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-user-times"></i></span>
                     <div class="info-box-content">
-                        <span class="info-box-text">Membres désactiver</span>
+                        <span class="info-box-text">{{__('dashboard.disabledMember')}}</span>
                         <span class="info-box-number">{{$disabledUsers}}</span>
                     </div>
                 </div>
@@ -48,7 +48,7 @@
             <div class="info-box mb-3">
                 <span class="info-box-icon bg-success elevation-1"><i class="fas fa-user-check"></i></span>
                 <div class="info-box-content">
-                        <span class="info-box-text">Membres actif</span>
+                        <span class="info-box-text">{{__('dashboard.enabledMember')}}</span>
                         <span class="info-box-number">{{$enabledUsers}}</span>
                 </div>
             </div>

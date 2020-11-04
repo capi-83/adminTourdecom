@@ -6,7 +6,7 @@
         @csrf
         <div class="input-group mb-3">
             <input type="email" class="form-control @error('email') is-invalid @enderror"
-                   placeholder="{{ __('Email') }}"
+                   placeholder="{{ __('form.input.email') }}"
                    name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
             <div class="input-group-append">
                 <div class="input-group-text">
@@ -20,7 +20,7 @@
             @enderror
         </div>
         <div class="input-group mb-3">
-            <input type="password" class="form-control" placeholder="{{ __('Password') }}"
+            <input type="password" class="form-control" placeholder="{{ __('form.input.password') }}"
                    class="form-control @error('password') is-invalid @enderror"
                    name="password" required autocomplete="current-password">
             <div class="input-group-append">
@@ -34,12 +34,12 @@
                 <div class="icheck-primary">
                     <input type="checkbox" id="remember" {{ old('remember') ? 'checked' : '' }}>
                     <label for="remember">
-                        {{ __('Remember Me') }}
+                        {{ __('form.input.remember') }}
                     </label>
                 </div>
             </div>
             <div class="col-4">
-                <button type="submit" class="btn btn-primary btn-block"> {{ __('Login') }}</button>
+                <button type="submit" class="btn btn-primary btn-block"> {{ __('form.button.login') }}</button>
             </div>
             @error('password')
             <span class="invalid-feedback" role="alert">
@@ -51,7 +51,7 @@
     <p class="mb-1">
         @if (Route::has('password.request'))
             <a class="btn btn-link" href="{{ route('password.request') }}">
-                {{ __('Forgot Your Password?') }}
+                {{ __('form.button.forgotPassword') }}
             </a>
         @endif
     </p>
