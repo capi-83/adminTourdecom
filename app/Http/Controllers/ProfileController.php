@@ -81,8 +81,7 @@ class ProfileController extends Controller
         'name'=> 'required',
         'email'=> 'required|email|unique:users',
         'password'=> 'nullable|min:8',
-        'password_confirmation'=> 'same:password',
-        'roles'=> 'required',
+        'password_confirmation'=> 'same:password'
     ];
 
     /**
@@ -102,6 +101,7 @@ class ProfileController extends Controller
      */
     public function index()
     {
+
         $users = User::all();
         $admins = [];
         $webUsers = [];
@@ -142,7 +142,7 @@ class ProfileController extends Controller
             }
         }
 
-        return back()->with('msg-error', __('Nop !'));
+        return abort('403');
     }
 
     /**
@@ -165,7 +165,6 @@ class ProfileController extends Controller
      */
     public function edit(User $user)
     {
-
         $rights = self::ACCESS_RIGHTS['edit'];
         $currentUser = Auth::user();
         $myaccount = $user->id === $currentUser->id;
@@ -194,7 +193,7 @@ class ProfileController extends Controller
 
         //no specific access
         if(!$myaccount)
-            return redirect()->route('dashboard')->with('msg-error', __('Nop !'));
+            return abort('403');
 
         return $view;
     }
@@ -221,10 +220,9 @@ class ProfileController extends Controller
             $users = User::notified()->get();
             Notification::send($users,new UsersNotification(UsersNotification::USER_CREATED,$user));
             $currentUser->notify(new UsersNotification(UsersNotification::USER_CREATED,$user,true));
-
-            return back()->with('msg-valid', __('Yes !'));
+            return back()->with('msg-valid', __('form.save'));
         } else {
-            return back()->with('msg-valid', __('Nop !'));
+            return back()->with('msg-valid', __('form.error'));
         }
     }
 
@@ -239,6 +237,7 @@ class ProfileController extends Controller
     {
         $rules = self::UPDATE_RULES;
         $rules['email'] = $rules['email'] . ',id,' . $user->id;
+
         $request->validate($rules);
 
         $user->name = $request->name;
@@ -255,18 +254,19 @@ class ProfileController extends Controller
             $user->password = Hash::make($request->password);
         }
 
-        $user->setRoles($request->roles);
+        if($request->roles){
+            $user->setRoles($request->roles);
+        }
 
         if ($user->save()) {
-
             $currentUser = Auth::user();
             $users = User::notified()->get();
             Notification::send($users,new UsersNotification(UsersNotification::USER_UPDATED,$user));
             $currentUser->notify(new UsersNotification(UsersNotification::USER_UPDATED,$user,true));
 
-            return back()->with('msg-valid', __('Yes !'));
+            return back()->with('msg-valid', __('form.save'));
         } else {
-            return back()->with('msg-valid', __('Nop !'));
+            return back()->with('msg-valid', __('form.error'));
         }
     }
 
@@ -292,15 +292,15 @@ class ProfileController extends Controller
                         Notification::send($users,new UsersNotification($method,$user));
                         $currentUser->notify(new UsersNotification($method,$user,true));
 
-                        return back()->with('msg-valid', __('Yes !'));
+                        return back()->with('msg-valid', __('form.save'));
                     } else {
-                        return back()->with('msg-valid', __('Nop !'));
+                        return back()->with('msg-valid', __('form.error'));
                     }
                 }
             }
         }
 
-        return back()->with('msg-valid', __('Nop !'));
+        return abort('403');
     }
 
     /**
@@ -321,16 +321,16 @@ class ProfileController extends Controller
 
                         $users = User::notified()->get();
                         Notification::send($users,new UsersNotification(UsersNotification::USER_DELETED,$user));
-                        $currentUser->notify(new UsersNotification($method,$user,true));
+                        $currentUser->notify(new UsersNotification(UsersNotification::USER_DELETED,$user,true));
 
-                        return redirect()->route('profile.index')->with('msg-valid', __('Yes !'));
+                        return redirect()->route('profile.index')->with('msg-valid', __('form.delete'));
                     } else {
-                        return back()->with('msg-valid', __('Nop !'));
+                        return back()->with('msg-valid', __('form.error'));
                     }
                 }
             }
         }
 
-        return back()->with('msg-valid', __('Nop !'));
+        return abort('403');
     }
 }
