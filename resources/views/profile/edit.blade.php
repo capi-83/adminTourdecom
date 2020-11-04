@@ -81,8 +81,8 @@
                         @endif
 
                         @if((isset($specificRights['delete']) && $specificRights['delete']))
-                            <a name="delete" href="{{route('profile.delete',$user)}}"
-                               class="btn btn-danger">{{__('profil.button.delete')}}</a>
+                            <button type="button" name="delete"  data-toggle="modal" data-target="#modal-delete"
+                               class="btn btn-danger">{{__('profil.button.delete')}}</button>
                         @endif
                     </div>
                 </div>
@@ -118,6 +118,28 @@
             </div>
         </div>
     </form>
+    <div class="modal fade" id="modal-delete">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">{{__('profil.modal.titleConfirm')}}</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-danger">
+                        {{__('profil.modal.text')}}
+                    </div>
+                    <p>{{__('profil.modal.confirmDelete')}}</p>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">{{__('profil.modal.close')}}</button>
+                    <a  href="{{route('profile.delete',$user)}}" type="button" class="btn btn-warning">{{__('profil.modal.delete')}}</a>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('css')

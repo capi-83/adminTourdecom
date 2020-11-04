@@ -31,5 +31,12 @@ return [
         'enabled' => "Activer",
         'disabled' => "Désactiver",
         'delete' => "Supprimer"
-    ]
+    ],
+    'modal' => [
+        'delete' => "Supprimer",
+        'close' => "Retour",
+        'text' => "Si vous supprimez cet utilisateur, toutes les données associées seront aussi supprmées.",
+        'confirmDelete' => "Cette action est irréversible. Etes vous sûr de vouloir supprimer cet utilisateurs?",
+        'titleConfirm' => "Confirmation de la suppression"
+    ],
 ];
