@@ -321,7 +321,7 @@ class ProfileController extends Controller
 
                         $users = User::notified()->get();
                         Notification::send($users,new UsersNotification(UsersNotification::USER_DELETED,$user));
-                        $currentUser->notify(new UsersNotification($method,$user,true));
+                        $currentUser->notify(new UsersNotification(UsersNotification::USER_DELETED,$user,true));
 
                         return redirect()->route('profile.index')->with('msg-valid', __('form.delete'));
                     } else {
