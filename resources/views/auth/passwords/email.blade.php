@@ -1,7 +1,7 @@
 @extends('layouts.login')
 
 @section('content')
-<div class="card-header">{{ __('Reset Password') }}</div>
+<div class="card-header">{{ __('form.resetPassword') }}</div>
 
 <div class="card-body login-card-body">
     @if (session('status'))
@@ -12,7 +12,7 @@
     <form method="POST" action="{{ route('password.email') }}">
         @csrf
         <div class="input-group mb-3">
-            <input type="email" placeholder="{{ __('E-Mail Address') }}"
+            <input type="email" placeholder="{{ __('form.input.email') }}"
                    class="form-control @error('email') is-invalid @enderror"
                    name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
             <div class="input-group-append">
@@ -31,7 +31,7 @@
         <div class="form-group row mb-3">
             <div class="col-md-6 offset-md-4">
                 <button type="submit" class="btn btn-primary">
-                    {{ __('Send Password Reset Link') }}
+                    {{ __('form.button.resetPassword')}}
                 </button>
             </div>
         </div>

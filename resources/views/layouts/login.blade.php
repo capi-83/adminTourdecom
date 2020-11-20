@@ -12,7 +12,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>La Tour de Commandement</title>
+    <title>{{__('main.title')}}</title>
 
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="/adminlte/plugins/fontawesome-free/css/all.min.css">
@@ -26,7 +26,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <body class="hold-transition login-page">
 <div class="login-box">
     <div class="login-logo">
-        <a href="#"><b>Admin</b> De la Tour</a>
+        <a href="#"><b>{{__('main.adminTitle.prefix')}}</b> {{__('main.adminTitle.title')}}</a>
     </div>
     <div class="card">
         @yield('content')

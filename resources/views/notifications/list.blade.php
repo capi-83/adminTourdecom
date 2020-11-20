@@ -5,12 +5,12 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Utilisateurs</h3>
+                    <h3 class="card-title">{{__('notification.users.title')}}</h3>
                     @if($userNotifications->count())
                         <div class="card-tools">
                             <a href="{{route('notifications.clear','users')}}">
                             <span class="badge badge-danger">
-                                clear all <i class="fas fa-trash"></i>
+                                {{__('notification.users.clearAll')}} <i class="fas fa-trash"></i>
                             </span>
                             </a>
                         </div>
@@ -20,10 +20,10 @@
                     <table class="table table-sm">
                         <thead>
                         <tr>
-                            <th>Date</th>
-                            <th>Type</th>
-                            <th>Utilisateur</th>
-                            <th>Par</th>
+                            <th>{{__('notification.table.date')}}</th>
+                            <th>{{__('notification.table.type')}}</th>
+                            <th>{{__('notification.table.user')}}</th>
+                            <th>{{__('notification.table.by')}}</th>
                         </tr>
                         </thead>
                         <tbody>
