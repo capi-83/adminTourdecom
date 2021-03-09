@@ -17,6 +17,7 @@ class UserRole {
     const ROLE_REDAC_CHEF = 'ROLE_REDAC_CHEF';
     const ROLE_REDAC = 'ROLE_REDAC';
     const ROLE_DECK_EVALUATOR = 'ROLE_DECK_EVALUATOR';
+    const ROLE_CORRECTOR = 'ROLE_CORRECTOR';
     const ROLE_MEMBRE = 'ROLE_MEMBRE';
 
     /**
@@ -30,12 +31,10 @@ class UserRole {
             self::ROLE_DECK_EVALUATOR,
             self::ROLE_DISCORD,
             self::ROLE_REDAC_CHEF,
+            self::ROLE_CORRECTOR,
             self::ROLE_MEMBRE
         ],
         self::ROLE_GARDIEN => [
-            self::ROLE_REDAC,
-            self::ROLE_DISCORD,
-            self::ROLE_REDAC_CHEF,
             self::ROLE_MEMBRE
         ],
         self::ROLE_DISCORD => [
@@ -43,9 +42,13 @@ class UserRole {
         ],
         self::ROLE_REDAC_CHEF => [
             self::ROLE_REDAC,
+            self::ROLE_CORRECTOR,
             self::ROLE_MEMBRE
         ],
         self::ROLE_DECK_EVALUATOR => [
+            self::ROLE_MEMBRE
+        ],
+        self::ROLE_CORRECTOR => [
             self::ROLE_MEMBRE
         ],
         self::ROLE_REDAC => [
@@ -96,6 +99,7 @@ class UserRole {
             static::ROLE_REDAC_CHEF => 'Rédacteur web en chef',
             static::ROLE_REDAC => 'Rédacteur web',
             static::ROLE_DECK_EVALUATOR => 'Deck Evaluator',
+            static::ROLE_CORRECTOR => 'Correcteur',
             static::ROLE_MEMBRE => 'Membre',
         ];
     }

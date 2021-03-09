@@ -35,20 +35,21 @@ class CheckUserRole
      * @return mixed
      * @throws AuthorizationException
      */
-    public function handle(Request $request, Closure $next, string $role, $adminAccess = false)
+    public function handle(Request $request, Closure $next,string $role)
     {
         /** @var User $user */
         $user = Auth::guard()->user();
+        $roles = explode('|', $role);
 
-        if(!$adminAccess)
+        if(!$roles)
         {
-            if (!$this->roleChecker->check($user, $role)) {
+            if (!$this->roleChecker->check($user, $roles)) {
                 Auth::logout();
                 throw new AuthorizationException('You do not have permission to view this page');
             }
         }
         else {
-            if (!$this->roleChecker->haveAdminAccess($user, $role)) {
+            if (!$this->roleChecker->haveAdminAccess($user)) {
                 Auth::logout();
                 throw new AuthorizationException('You do not have permission to view this page');
             }

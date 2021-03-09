@@ -117,7 +117,23 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <x-menu-item href="{{ route('dashboard') }}" :sub=false icon="home" active="{{ Route::currentRouteName() === 'dashboard' }}">
                         {{__('main.menu.dashboard')}}
                     </x-menu-item>
-                    @if(\App\Role\RoleChecker::check($currentUser,\App\Role\UserRole::ROLE_GARDIEN))
+                    @if(\App\Role\RoleChecker::check($currentUser,\App\Rights\ArticleRights::getInterfaceAccess()))
+                        <li class="nav-item has-treeview {{ ( Request::routeIs('article*') && ! Request::routeIs('article*edit'))  ? 'menu-open' : 'menu-close' }} ">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-newspaper"></i>
+                                <p>
+                                    {{__('main.menu.articles.title')}}
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <x-menu-item href="{{ route('article.index') }}" :sub=false icon="file-alt" active="{{ Route::currentRouteName() === 'article.index' }}">
+                                    {{__('main.menu.articles.list')}}
+                                </x-menu-item>
+                            </ul>
+                        </li>
+                    @endif
+                    @if(\App\Role\RoleChecker::check($currentUser,\App\Rights\ProfileRights::getInterfaceAccess()))
                     <li class="nav-item has-treeview {{ ( Request::routeIs('profile*') && ! Request::routeIs('profile*edit'))  ? 'menu-open' : 'menu-close' }} ">
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-users"></i>
@@ -130,7 +146,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <x-menu-item href="{{ route('profile.index') }}" :sub=false icon="address-book" active="{{ Route::currentRouteName() === 'profile.index' }}">
                                 {{__('main.menu.users.list')}}
                             </x-menu-item>
-                            @if(\App\Role\RoleChecker::check($currentUser,\App\Role\UserRole::ROLE_COMMANDANT))
+                            @if(\App\Role\RoleChecker::check($currentUser,\App\Rights\ProfileRights::getInterfaceAccess('create')))
                                 <x-menu-item href="{{ route('profile.create') }}" :sub=false icon="user-plus" active="{{ Route::currentRouteName() === 'profile.create' }}">
                                     {{__('main.menu.users.add')}}
                                 </x-menu-item>
@@ -138,6 +154,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </ul>
                     </li>
                     @endif
+                    @if(\App\Role\RoleChecker::check($currentUser,\App\Rights\NotificationRights::getInterfaceAccess()))
                     <x-menu-item href="{{ route('notifications.index') }}"
                                  :sub=false
                                  icon="bell"
@@ -149,6 +166,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     >
                         {{__('main.menu.notification')}}
                     </x-menu-item>
+                    @endif
                 </ul>
             </nav>
             <!-- /.sidebar-menu -->

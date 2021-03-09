@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Role\UserRole;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Config;
@@ -129,11 +130,11 @@ class User extends Authenticatable implements JWTSubject
     {
         $currentRoles = $this->getRoles();
         foreach($roles as $role) {
-            if ( ! in_array($role, $currentRoles )) {
-                return false;
+            if ( in_array($role, $currentRoles )) {
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     /**
@@ -157,5 +158,21 @@ class User extends Authenticatable implements JWTSubject
     {
         $this->setAttribute('disabled',!$this->disabled);
         return $this;
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function articles()
+    {
+        return $this->hasMany('Article');
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function comments()
+    {
+        return $this->hasMany('Comment');
     }
 }

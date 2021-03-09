@@ -15,27 +15,32 @@ class RoleChecker
 {
     /**
      * @param User $user
-     * @param string $role
+     * @param array|string $roles
      * @return bool
      */
-    public static function check(User $user, string $role)
+    public static function check(User $user, $roles)
     {
+
         // Admin has everything
         if ($user->hasRole(UserRole::ROLE_SUPERADMIN)) {
             return true;
         }
 
+        if(!is_array($roles)) $roles = [$roles];
+        if(!$roles) return self::haveAdminAccess($user);
+
+        // Access for all child
         foreach(UserRole::getrolesHasChild() as $bigRole) {
             if($user->hasRole($bigRole)) {
                 $managementRoles = UserRole::getAllowedRoles($bigRole);
-
-                if (in_array($role, $managementRoles)) {
-                    return true;
+                foreach($roles as $role) {
+                    if (in_array($role, $managementRoles)) {
+                        return true;
+                    }
                 }
             }
         }
-
-        return $user->hasRole($role);
+        return $user->hasRoles($roles);
     }
 
     /**
@@ -43,7 +48,6 @@ class RoleChecker
      * @return bool
      */
     public static function haveAdminAccess(User $user) {
-        //ddd($user->getRoles());
         if(count($user->getRoles()) > 1 ) {
             return true;
         }

@@ -15,7 +15,12 @@ return [
             'list' => "List des Utilisateurs",
             'add' => "Ajouter un utilisateur"
         ],
-        'notification' => "Notifications"
+        'notification' => "Notifications",
+        'articles' => [
+            'title'=> "Articles",
+            'list' => "List des articles",
+            'add' => "Ajouter un article"
+        ],
     ],
     'footer' => [
         'copyright' => "Copyright :date .",

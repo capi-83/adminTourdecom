@@ -3,7 +3,12 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\NotificationsController;
-use App\Role\UserRole;
+use App\Http\Controllers\ArticleController;
+use App\Rights\NotificationRights;
+use App\Rights\ArticleRights;
+use App\Rights\DashboardRights;
+use App\Rights\MyAccountRights;
+use App\Rights\ProfileRights;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,17 +27,20 @@ Route::get('/', function () {
     return redirect()->route('dashboard');
 });
 
-
+//Dashboard
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')
-    ->middleware('check_user_role:' . UserRole::ROLE_MEMBRE.',false');
+    ->middleware('check_user_role:' . DashboardRights::getRouteAccess());
 
 
-Route::group(['middleware'=>['check_user_role:' . UserRole::ROLE_MEMBRE.',false']],function () {
+//Mon compte
+Route::group(['middleware'=>['check_user_role:' . MyAccountRights::getRouteAccess()]],function () {
     Route::get('/my-account/{user}', [ProfileController::class,'edit'])->name('myProfile.my-account');
     Route::put('/profile/{user}/update', [ProfileController::class,'update'])->name('profile.update');
 });
 
-Route::group(['middleware'=>['check_user_role:' . UserRole::ROLE_GARDIEN]],function () {
+
+// Users
+Route::group(['middleware'=>['check_user_role:' . ProfileRights::getRouteAccess()]],function () {
     Route::get('/profile/{user}/edit', [ProfileController::class,'edit'])->name('profile.edit');
     Route::get('/profile/{user}/show', [ProfileController::class,'show'])->name('profile.show');
     Route::get('/profile/list', [ProfileController::class,'index'])->name('profile.index');
@@ -42,8 +50,15 @@ Route::group(['middleware'=>['check_user_role:' . UserRole::ROLE_GARDIEN]],funct
     Route::get('/profile/{user}/delete', [ProfileController::class,'destroy'])->name('profile.delete');
 });
 
-Route::group(['middleware'=>['check_user_role:' . UserRole::ROLE_MEMBRE.',false']],function () {
+//notifications
+Route::group(['middleware'=>['check_user_role:' . NotificationRights::getRouteAccess()]],function () {
     Route::get('/notifications', [NotificationsController::class,'index'])->name('notifications.index');
     Route::get('/notifications/readall',[NotificationsController::class,'readAllNotifications'])->name('notifications.readAll');
     Route::get('/notifications/clear/{type}',[NotificationsController::class,'clear'])->name('notifications.clear');
+});
+
+
+//article
+Route::group(['middleware'=>['check_user_role:' . ArticleRights::getRouteAccess() ]],function () {
+    Route::get('/articles', [ArticleController::class,'index'])->name('article.index');
 });
