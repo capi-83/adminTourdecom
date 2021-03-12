@@ -41,6 +41,11 @@ class CheckUserRole
         $user = Auth::guard()->user();
         $roles = explode('|', $role);
 
+        if(!$user) {
+            Auth::logout();
+            throw new AuthorizationException('You do not have permission to view this page');
+        }
+
         if(!$roles)
         {
             if (!$this->roleChecker->check($user, $roles)) {

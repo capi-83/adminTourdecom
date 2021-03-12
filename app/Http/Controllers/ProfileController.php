@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\ResponseObject;
 use App\Models\User;
 use App\Notifications\UsersNotification;
+use App\Rights\ProfileRights;
 use App\Role\RoleChecker;
-use App\Role\UserRole;
 use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -17,57 +17,7 @@ use Illuminate\Support\Facades\Notification;
 
 class ProfileController extends Controller
 {
-    /**
-     * ACCESS Rights management
-     */
-    const ACCESS_RIGHTS = [
-        'edit' => [
-            UserRole::ROLE_SUPERADMIN => 'edit',
-            UserRole::ROLE_COMMANDANT => 'edit',
-            UserRole::ROLE_GARDIEN => 'show'
-        ],
-        'show' => [
-            UserRole::ROLE_SUPERADMIN => 'edit',
-            UserRole::ROLE_COMMANDANT => 'edit',
-            UserRole::ROLE_GARDIEN => 'show'
-        ],
-        'create' => [
-            UserRole::ROLE_SUPERADMIN => 'create',
-            UserRole::ROLE_COMMANDANT => 'create'
-        ],
-        'update' => [
-            UserRole::ROLE_SUPERADMIN => 'update',
-            UserRole::ROLE_COMMANDANT => 'update'
-        ],
-        'disabled' => [
-            UserRole::ROLE_SUPERADMIN => 'disabled',
-            UserRole::ROLE_COMMANDANT => 'disabled',
-            UserRole::ROLE_GARDIEN => 'disabled'
-        ],
-        'delete' => [
-            UserRole::ROLE_SUPERADMIN => 'delete',
-            UserRole::ROLE_COMMANDANT => 'delete'
-        ],
-    ];
-
-    /**
-     * Droits Specifique
-     */
-    const SPECIFIC_RIGHTS = [
-        'roles' => [
-            UserRole::ROLE_SUPERADMIN,
-            UserRole::ROLE_COMMANDANT
-        ],
-        'delete' => [
-            UserRole::ROLE_SUPERADMIN,
-            UserRole::ROLE_COMMANDANT
-        ],
-        'disabled' => [
-            UserRole::ROLE_SUPERADMIN,
-            UserRole::ROLE_COMMANDANT,
-            UserRole::ROLE_GARDIEN
-        ]
-    ];
+    private $spec;
 
     private const STORE_RULES = [
         'name'=> 'required',
@@ -92,6 +42,7 @@ class ProfileController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->spec = new ProfileRights();
     }
 
     /**
@@ -123,26 +74,15 @@ class ProfileController extends Controller
      */
     public function create()
     {
-        $rights = self::ACCESS_RIGHTS['create'];
-        $currentUser = Auth::user();
 
-        $view = view('profile.add',
+        if(!$this->spec->hasAccess('create')) return abort('403');
+
+        return view('profile.add',
             [
                 'user' => [],
                 'disabled' => false,
                 'specificRights' => []
             ]);
-
-        //check specific access
-        foreach ( $rights as $rk => $rv) {
-            if(RoleChecker::check($currentUser,$rk)) {
-                if($rv === 'create') {
-                    return $view;
-                }
-            }
-        }
-
-        return abort('403');
     }
 
     /**
@@ -153,8 +93,14 @@ class ProfileController extends Controller
      */
     public function show(User $user)
     {
-        return view('profile.edit',['user' => $user, 'disabled' => true,
-            'specificRights' => RoleChecker::getSpecificRightsForAuth(self::SPECIFIC_RIGHTS)]);
+        $currentUser = Auth::user();
+        return view('profile.edit',
+            [
+                'user' => $user,
+                'disabled' => true,
+                'specificRights' => $this->spec->getSpecificRights($currentUser)
+            ]
+        );
     }
 
     /**
@@ -165,37 +111,24 @@ class ProfileController extends Controller
      */
     public function edit(User $user)
     {
-        $rights = self::ACCESS_RIGHTS['edit'];
         $currentUser = Auth::user();
-        $myaccount = $user->id === $currentUser->id;
-
-        if(RoleChecker::isSuperAdminProfile($user) && !$myaccount)
+        if($this->spec->islockedProfile($user,$currentUser))
             return redirect()->route('profile.show', $user);
 
         $view = view('profile.edit',
             [
                 'user' => $user,
                 'disabled' => false,
-                'specificRights' => RoleChecker::getSpecificRightsForAuth(self::SPECIFIC_RIGHTS)
+                'specificRights' => $this->spec->getSpecificRights($currentUser)
             ]);
 
-        //check specific access
-        foreach ( $rights as $rk => $rv) {
-            if(RoleChecker::check($currentUser,$rk)) {
-                if($rv === 'edit') {
-                    return $view;
-                }
-                if($rv === 'show' && !$myaccount) {
-                    return redirect()->route('profile.show', $user);
-                }
-            }
-        }
+        if($this->spec->hasAccess('edit') || $this->spec->isMyProfile($user,$currentUser))
+            return $view;
 
-        //no specific access
-        if(!$myaccount)
-            return abort('403');
+        else if($this->spec->hasAccess('show'))
+            return redirect()->route('profile.show', $user);
 
-        return $view;
+        else return abort('403');
     }
 
     /**
@@ -215,11 +148,12 @@ class ProfileController extends Controller
         $user->setRoles($request->roles);
 
         if ($user->save()) {
-
-            $currentUser = Auth::user();
             $users = User::notified()->get();
+            $currentUser = Auth::user();
+
             Notification::send($users,new UsersNotification(UsersNotification::USER_CREATED,$user));
             $currentUser->notify(new UsersNotification(UsersNotification::USER_CREATED,$user,true));
+
             return back()->with('msg-valid', __('form.save'));
         } else {
             return back()->with('msg-valid', __('form.error'));
@@ -259,8 +193,9 @@ class ProfileController extends Controller
         }
 
         if ($user->save()) {
-            $currentUser = Auth::user();
             $users = User::notified()->get();
+            $currentUser = Auth::user();
+
             Notification::send($users,new UsersNotification(UsersNotification::USER_UPDATED,$user));
             $currentUser->notify(new UsersNotification(UsersNotification::USER_UPDATED,$user,true));
 
@@ -279,24 +214,19 @@ class ProfileController extends Controller
      */
     public function disabled(User $user)
     {
-        $currentUser = Auth::user();
-        $rights = self::ACCESS_RIGHTS['disabled'];
-        foreach ( $rights as $rk => $rv) {
-            if(RoleChecker::check($currentUser,$rk)) {
-                if($rv === 'disabled') {
-                    $user->toggleDisabled();
-                    if ($user->save()) {
-                        $method = ($user->disabled)?UsersNotification::USER_DISABLED:UsersNotification::USER_ENABLED;
+        if($this->spec->hasAccess('disabled')) {
+            $user->toggleDisabled();
+            if ($user->save()) {
+                $method = ($user->disabled)?UsersNotification::USER_DISABLED:UsersNotification::USER_ENABLED;
 
-                        $users = User::notified()->get();
-                        Notification::send($users,new UsersNotification($method,$user));
-                        $currentUser->notify(new UsersNotification($method,$user,true));
+                $users = User::notified()->get();
+                $currentUser = Auth::user();
+                Notification::send($users,new UsersNotification($method,$user));
+                $currentUser->notify(new UsersNotification($method,$user,true));
 
-                        return back()->with('msg-valid', __('form.save'));
-                    } else {
-                        return back()->with('msg-valid', __('form.error'));
-                    }
-                }
+                return back()->with('msg-valid', __('form.save'));
+            } else {
+                return back()->with('msg-valid', __('form.error'));
             }
         }
 
@@ -312,22 +242,16 @@ class ProfileController extends Controller
      */
     public function destroy(User $user)
     {
-        $currentUser = Auth::user();
-        $rights = self::ACCESS_RIGHTS['delete'];
-        foreach ( $rights as $rk => $rv) {
-            if(RoleChecker::check($currentUser,$rk)) {
-                if($rv === 'delete') {
-                    if ($user->delete()) {
+        if($this->spec->hasAccess('delete')){
+            if ($user->delete()) {
+                $users = User::notified()->get();
+                $currentUser = Auth::user();
+                Notification::send($users,new UsersNotification(UsersNotification::USER_DELETED,$user));
+                $currentUser->notify(new UsersNotification(UsersNotification::USER_DELETED,$user,true));
 
-                        $users = User::notified()->get();
-                        Notification::send($users,new UsersNotification(UsersNotification::USER_DELETED,$user));
-                        $currentUser->notify(new UsersNotification(UsersNotification::USER_DELETED,$user,true));
-
-                        return redirect()->route('profile.index')->with('msg-valid', __('form.delete'));
-                    } else {
-                        return back()->with('msg-valid', __('form.error'));
-                    }
-                }
+                return redirect()->route('profile.index')->with('msg-valid', __('form.delete'));
+            } else {
+                return back()->with('msg-valid', __('form.error'));
             }
         }
 

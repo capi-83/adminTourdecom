@@ -63,30 +63,24 @@ class RoleChecker
         return self::check($user,UserRole::ROLE_SUPERADMIN);
     }
 
+
     /**
      *
-     * Check if user can use this rights
+     * Check si le roles et l'access corresponde dans les droits.
      *
-     * @param array $spec
-     * @return array
+     * @param array $rights
+     * @param User $user
+     * @param string $access
+     * @return bool
      */
-    public static function getSpecificRightsForAuth(array $spec)
-    {
-        $currentUser = Auth::user();
-        $specificRights = [];
-        foreach($spec as $srk => $srv)
-        {
-            $specificRights[$srk] = false;
-            foreach($srv as $role)
-            {
-                if(RoleChecker::check($currentUser,$role))
-                {
-                    $specificRights[$srk] = true;
-                    break;
+    public static function checkRolesRight(array $rights, User $user, string $access): bool {
+        foreach ( $rights as $rk => $rv) {
+            if(self::check($user,$rk)) {
+                if($rv === $access) {
+                    return true;
                 }
             }
         }
-
-        return $specificRights;
+        return false;
     }
 }
