@@ -165,7 +165,7 @@ class User extends Authenticatable implements JWTSubject
      */
     public function articles()
     {
-        return $this->hasMany('Article');
+        return $this->hasMany(Article::class);
     }
 
     /**
@@ -173,6 +173,6 @@ class User extends Authenticatable implements JWTSubject
      */
     public function comments()
     {
-        return $this->hasMany('Comment');
+        return $this->hasMany(Comment::class);
     }
 }

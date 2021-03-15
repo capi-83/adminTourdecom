@@ -20,29 +20,25 @@ class CategorieTableSeeder extends Seeder
                     'id' => 1,
                     'title' => 'DeckTech',
                     'description' => 'blablabla',
-                    'created_at' => new \DateTime(),
-                    'updated_at' => new \DateTime()
+                    'slug' => 'deck-tech'
                 ],
                 [
                     'id' => 2,
                     'title' => 'Communauté',
-                    'description' => 'blablabla',
-                    'created_at' => new \DateTime(),
-                    'updated_at' => new \DateTime()
+                    'slug' => 'communaute',
+                    'description' => 'blablabla'
                 ],
                 [
                     'id' => 3,
                     'title' => 'Judge',
-                    'description' => 'blablabla',
-                    'created_at' => new \DateTime(),
-                    'updated_at' => new \DateTime()
+                    'slug' => 'judge',
+                    'description' => 'blablabla'
                 ],
                 [
                     'id' => 4,
                     'title' => 'La Tour',
-                    'description' => 'blablabla',
-                    'created_at' => new \DateTime(),
-                    'updated_at' => new \DateTime()
+                    'slug' => 'la-tour',
+                    'description' => 'blablabla'
                 ]
             ]
         );

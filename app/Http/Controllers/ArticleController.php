@@ -3,11 +3,30 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
+use App\Repositories\ArticleRepository;
+use App\Rights\ArticleRights;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class ArticleController extends Controller
 {
+    protected $spec;
+    protected $articleRepository;
+    protected $nbrPages;
+
+    /**
+     * Create a new controller instance.
+     *
+     * @param ArticleRepository $articleRepository
+     */
+    public function __construct(ArticleRepository $articleRepository)
+    {
+        $this->middleware('auth');
+        $this->spec = new ArticleRights();
+        $this->articleRepository = $articleRepository;
+        $this->nbrPages = 20;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +34,9 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        return view('article.list');
+        $articles = $this->articleRepository->getActiveOrderByDate($this->nbrPages);
+        $heros = $this->articleRepository->getHeros();
+        return view('article.list', compact('articles', 'heros'));
     }
 
     /**

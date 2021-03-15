@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property mixed id
- * @property mixed title
+ * @property string title
+ * @property string slug
  * @property mixed description
  * @property mixed disabled
  * @property mixed created_at
@@ -16,7 +17,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 class Category extends Model
 {
-    use HasFactory;
+    protected $fillable = [
+        'title',
+        'slug',
+        'description',
+        'disabled'
+    ];
+    public $timestamps = false;
 
     /**
      * @return HasMany

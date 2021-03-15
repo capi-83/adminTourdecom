@@ -2,8 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Models\Comment;
+use Database\Factories\CommentFactory;
+use Faker\Factory;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class CommentTableSeeder extends Seeder
 {
@@ -14,25 +16,90 @@ class CommentTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('comments')->insert(
-            [
+        for ($i = 1; $i <= 15; $i++) {
+            $article_id = rand(1,2);
+            Comment::factory()->create([
+                'article_id' => $article_id,
+                'user_id' => rand(1, 2000),
+            ]);
+        }
+
+        $faker = Factory::create();
+        Comment::create([
+            'article_id' => 2,
+            'user_id' => 3,
+            'body' => $faker->paragraph($nbSentences = 4, $variableNbSentences = true),
+            'children' => [
                 [
-                    'id' => 1,
-                    'user_id' => '10',
-                    'article_id' => '1',
-                    'text' => 'blablabla',
-                    'created_at' => '2013-02-01 00:00:00',
-                    'updated_at' => '2013-02-01 00:00:00'
+                    'article_id' => 2,
+                    'user_id' => 4,
+                    'body' => $faker->paragraph($nbSentences = 4, $variableNbSentences = true),
+                    'children' => [
+                        [
+                            'article_id' => 2,
+                            'user_id' => 2,
+                            'body' => $faker->paragraph($nbSentences = 4, $variableNbSentences = true),
+                        ],
+                    ],
+                ],
+            ],
+        ]);
+        Comment::create([
+            'article_id' => 2,
+            'user_id' => 6,
+            'body' => $faker->paragraph($nbSentences = 4, $variableNbSentences = true),
+            'children' => [
+                [
+                    'article_id' => 2,
+                    'user_id' => 3,
+                    'body' => $faker->paragraph($nbSentences = 4, $variableNbSentences = true),
                 ],
                 [
-                    'id' => 2,
-                    'user_id' => '10',
-                    'article_id' => '1',
-                    'text' => 'blablabla',
-                    'created_at' => '2013-02-01 00:00:00',
-                    'updated_at' => '2013-02-01 00:00:00'
-                ]
-            ]
-        );
+                    'article_id' => 2,
+                    'user_id' => 6,
+                    'body' => $faker->paragraph($nbSentences = 4, $variableNbSentences = true),
+                    'children' => [
+                        [
+                            'article_id' => 2,
+                            'user_id' => 3,
+                            'body' => $faker->paragraph($nbSentences = 4, $variableNbSentences = true),
+
+                            'children' => [
+                                [
+                                    'article_id' => 2,
+                                    'user_id' => 6,
+                                    'body' => $faker->paragraph($nbSentences = 4, $variableNbSentences = true),
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ]);
+        Comment::create([
+            'article_id' => 1,
+            'user_id' => 4,
+            'body' => $faker->paragraph($nbSentences = 4, $variableNbSentences = true),
+            'children' => [
+                [
+                    'article_id' => 1,
+                    'user_id' => 5,
+                    'body' => $faker->paragraph($nbSentences = 4, $variableNbSentences = true),
+                    'children' => [
+                        [   'article_id' => 1,
+                            'user_id' => 2,
+                            'body' => $faker->paragraph($nbSentences = 4, $variableNbSentences = true),
+                        ],
+                        [
+                            'article_id' => 1,
+                            'user_id' => 1,
+                            'body' => $faker->paragraph($nbSentences = 4, $variableNbSentences = true),
+                        ],
+                    ],
+                ],
+            ],
+        ]);
+
+
     }
 }

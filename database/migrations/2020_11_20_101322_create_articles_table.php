@@ -16,17 +16,21 @@ class CreateArticlesTable extends Migration
         Schema::create('articles', function (Blueprint $table) {
             $table->increments('id')->unsigned();
             $table->string('title', 128);
+            $table->string('slug')->unique();
+            $table->string('seo_title')->nullable();
+            $table->string('intro_text', 250);
+            $table->string('intro_img')->nullable();
+            $table->text('full_text');
+            $table->text('meta_description');
+            $table->text('meta_keywords');
+            $table->enum('status', array('published', 'workInProgress','waitingForValidation','disabled'))->default('workInProgress');
+            // not bool for add choice oneday
+            $table->enum('allow_comment', array('no', 'yes'))->default('yes');
+            $table->timestamp('published_at')->nullable();
             $table->integer('author_id')->unsigned()->nullable();
             $table->integer('corrector_id')->unsigned()->nullable();
             $table->integer('validator_id')->unsigned()->nullable();
             $table->integer('categorie_id')->unsigned()->nullable();
-            $table->string('intro_text', 250);
-            $table->string('intro_img', 250)->nullable();
-            $table->text('full_text');
-            $table->enum('status', array('published', 'workInProgress','waitingForValidation','disabled'))->default('workInProgress');
-            // not pull for add choice oneday
-            $table->enum('allow_comment', array('no', 'yes'))->default('yes');
-            $table->timestamp('published_at')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

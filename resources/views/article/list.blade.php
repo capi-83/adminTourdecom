@@ -1,5 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-   article
+    {{dd($heros)}}
+    {{dd($articles)}}
 @endsection

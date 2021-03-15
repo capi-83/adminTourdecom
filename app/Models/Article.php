@@ -2,17 +2,23 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Notifications\Notifiable;
 
 /**
  * @property int id
  * @property string title
+ * @property string slug
+ * @property string seo_title
  * @property string intro_text
  * @property string intro_img
  * @property string full_text
+ * @property string meta_description
+ * @property string meta_keywords
  * @property mixed status
  * @property mixed allow_comment
  * @property mixed published_at
@@ -22,14 +28,29 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 class Article extends Model
 {
-    use HasFactory;
+    use HasFactory, Notifiable;
+
+    protected $fillable = [
+        'title',
+        'slug',
+        'seo_title',
+        'intro_text',
+        'intro_img',
+        'full_text',
+        'meta_description',
+        'meta_keywords',
+        'status',
+        'allow_comment',
+        'image',
+        'author_id',
+    ];
 
     /**
      * @return HasMany
      */
     public function comments()
     {
-        return $this->hasMany('Comment');
+        return $this->hasMany(Comment::class);
     }
 
     /**
@@ -37,7 +58,7 @@ class Article extends Model
      */
     public function categorie()
     {
-        return $this->belongsTo('Categorie');
+        return $this->belongsTo(Category::class);
     }
 
     /**
@@ -45,7 +66,7 @@ class Article extends Model
      */
     public function author()
     {
-        return $this->belongsTo('User');
+        return $this->belongsTo(User::class);
     }
 
     /**
@@ -53,7 +74,7 @@ class Article extends Model
      */
     public function validator()
     {
-        return $this->belongsTo('User');
+        return $this->belongsTo(User::class);
     }
 
     /**
@@ -61,6 +82,16 @@ class Article extends Model
      */
     public function corrector()
     {
-        return $this->belongsTo('User');
+        return $this->belongsTo(User::class);
+    }
+
+    /**
+     * @return Builder|HasMany
+     */
+    public function validComments()
+    {
+        return $this->comments()->whereHas('user', function ($query) {
+            $query->whereDisabled(false);
+        });
     }
 }
