@@ -23,6 +23,7 @@
                             @endif
                         </div>
                     </div>
+                    <input type="hidden" value="{{ $user->id }}" name="user_id">
                     <div class="card-body">
                         <x-input
                             name="name"

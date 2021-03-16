@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Admin\Profile\StoreRequest;
+use App\Http\Requests\Admin\Profile\UpdateRequest;
 use App\Http\ResponseObject;
 use App\Models\User;
 use App\Notifications\UsersNotification;
@@ -18,21 +20,6 @@ use Illuminate\Support\Facades\Notification;
 class ProfileController extends Controller
 {
     private $spec;
-
-    private const STORE_RULES = [
-        'name'=> 'required',
-        'email'=> 'required|email|unique:users',
-        'password'=> 'min:8|required|confirmed',
-        'password_confirmation'=> 'same:password',
-        'roles'=> 'required',
-    ];
-
-    private const UPDATE_RULES = [
-        'name'=> 'required',
-        'email'=> 'required|email|unique:users',
-        'password'=> 'nullable|min:8',
-        'password_confirmation'=> 'same:password'
-    ];
 
     /**
      * Create a new controller instance.
@@ -137,10 +124,8 @@ class ProfileController extends Controller
      * @param Request $request
      * @return Response
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        $request->validate(self::STORE_RULES);
-
         $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;
@@ -163,17 +148,12 @@ class ProfileController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
+     * @param UpdateRequest $request
      * @param User $user
      * @return void
      */
-    public function update(Request $request, User $user)
+    public function update(UpdateRequest $request, User $user)
     {
-        $rules = self::UPDATE_RULES;
-        $rules['email'] = $rules['email'] . ',id,' . $user->id;
-
-        $request->validate($rules);
-
         $user->name = $request->name;
         if($request->email !== $user->email) {
             $user->email = $request->email;
