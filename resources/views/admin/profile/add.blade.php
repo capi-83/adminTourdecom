@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('admin.layouts.app')
 
 @section('content')
     <form role="form" action="{{ route('profile.store') }}" method="post">

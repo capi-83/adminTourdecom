@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Providers\RouteServiceProvider;
 use Closure;
 use App\User;
 use App\Role\RoleChecker;
@@ -42,21 +43,19 @@ class CheckUserRole
         $roles = explode('|', $role);
 
         if(!$user) {
-            Auth::logout();
-            throw new AuthorizationException('You do not have permission to view this page');
+            return redirect(RouteServiceProvider::HOME);
         }
 
         if(!$roles)
         {
-            if (!$this->roleChecker->check($user, $roles)) {
-                Auth::logout();
-                throw new AuthorizationException('You do not have permission to view this page');
+            if (!$this->roleChecker->haveAdminAccess($user)) {
+                return redirect(RouteServiceProvider::HOME);
             }
+
         }
         else {
-            if (!$this->roleChecker->haveAdminAccess($user)) {
-                Auth::logout();
-                throw new AuthorizationException('You do not have permission to view this page');
+            if (!$this->roleChecker->check($user, $roles)) {
+                return redirect(RouteServiceProvider::HOME);
             }
         }
 

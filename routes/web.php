@@ -1,9 +1,10 @@
 <?php
 
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\NotificationsController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\Admin\NotificationsController;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\IndexController;
 use App\Rights\NotificationRights;
 use App\Rights\ArticleRights;
 use App\Rights\DashboardRights;
@@ -23,9 +24,7 @@ use Illuminate\Support\Facades\Route;
 */
 Auth::routes(['register' => false]);
 
-Route::get('/', function () {
-    return redirect()->route('dashboard');
-});
+Route::get('/', [IndexController::class,'show'])->name('acceuil');
 
 //Dashboard
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')

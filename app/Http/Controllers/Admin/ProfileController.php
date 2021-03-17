@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Profile\StoreRequest;
 use App\Http\Requests\Admin\Profile\UpdateRequest;
 use App\Http\ResponseObject;
@@ -51,7 +52,7 @@ class ProfileController extends Controller
             else array_push($webUsers,$u);
         }
 
-        return view('profile.list',['users'=>$webUsers,'admins'=>$admins]);
+        return view('admin.profile.list',['users'=>$webUsers,'admins'=>$admins]);
     }
 
     /**
@@ -64,7 +65,7 @@ class ProfileController extends Controller
 
         if(!$this->spec->hasAccess('create')) return abort('403');
 
-        return view('profile.add',
+        return view('admin.profile.add',
             [
                 'user' => [],
                 'disabled' => false,
@@ -81,7 +82,7 @@ class ProfileController extends Controller
     public function show(User $user)
     {
         $currentUser = Auth::user();
-        return view('profile.edit',
+        return view('admin.profile.edit',
             [
                 'user' => $user,
                 'disabled' => true,
@@ -102,7 +103,7 @@ class ProfileController extends Controller
         if($this->spec->islockedProfile($user,$currentUser))
             return redirect()->route('profile.show', $user);
 
-        $view = view('profile.edit',
+        $view = view('admin.profile.edit',
             [
                 'user' => $user,
                 'disabled' => false,

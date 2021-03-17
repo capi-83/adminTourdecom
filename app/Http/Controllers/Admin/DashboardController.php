@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Role\RoleChecker;
 use Illuminate\Contracts\Support\Renderable;
@@ -35,7 +36,7 @@ class DashboardController extends Controller
             }
         }
 
-        return view('dashboard', [
+        return view('admin.dashboard', [
             'totalUsers' => $nbrUsers,
             'admins' => $nbrAdmins,
             'disabledUsers'=> $nbrDisabledUsers,

@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -33,7 +34,7 @@ class NotificationsController extends Controller
         $user->unreadNotifications->markAsRead();
 
 
-        return view('notifications.list',
+        return view('admin.notifications.list',
             ['userNotifications'=> $user->notifications->where('type','App\Notifications\UsersNotification')]);
     }
 
