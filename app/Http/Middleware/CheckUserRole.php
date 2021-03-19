@@ -46,8 +46,7 @@ class CheckUserRole
         if(!$user) {
             return redirect(RouteServiceProvider::HOME);
         }
-
-        if(!$roles)
+        if(!$roles[0])
         {
             if (!$this->roleChecker->haveAdminAccess($user)) {
                 return redirect(RouteServiceProvider::HOME);
@@ -56,8 +55,7 @@ class CheckUserRole
         }
         else {
             if (!$this->roleChecker->check($user, $roles)) {
-                dd($user,$roles,$request);
-                //return redirect(RouteServiceProvider::HOME);
+                return redirect(RouteServiceProvider::HOME);
             }
         }
 
