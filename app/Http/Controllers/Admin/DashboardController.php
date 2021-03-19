@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use Debugbar;
+use Illuminate\Http\Request;
 use App\Repositories\ArticleRepository;
 use App\Repositories\CategoryRepository;
 use App\Repositories\CommentRepository;
@@ -81,7 +83,7 @@ class DashboardController extends Controller
                 "waitingForValidation"=> 0,
                 "disabled" => 0];
             foreach ($this->articleRepository->getArticleByCategory($cat->id) as $articleByCat) {
-                $stats[$cat->title][$articleByCat->status] = (isset($stats[$cat->id][$articleByCat->status]))? $stats[$cat->id][$articleByCat->status] ++ : 1;
+                $stats[$cat->title][$articleByCat->status] = $stats[$cat->title][$articleByCat->status] + 1;
             }
         }
         return $stats;

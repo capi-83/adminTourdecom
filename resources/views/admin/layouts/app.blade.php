@@ -127,7 +127,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
-                                <x-menu-item href="{{ route('article.index') }}" :sub=false icon="file-alt" active="{{ Route::currentRouteName() === 'article.index' }}">
+                                <x-menu-item href="#" :sub=false icon="file-alt" active="{{ Route::currentRouteName() === 'article.index' }}">
                                     {{__('main.menu.articles.list')}}
                                 </x-menu-item>
                             </ul>

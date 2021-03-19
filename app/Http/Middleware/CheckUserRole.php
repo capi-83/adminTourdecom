@@ -9,6 +9,7 @@ use App\Role\RoleChecker;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Debugbar;
 
 /**
  * Class CheckUserRole
@@ -55,7 +56,8 @@ class CheckUserRole
         }
         else {
             if (!$this->roleChecker->check($user, $roles)) {
-                return redirect(RouteServiceProvider::HOME);
+                dd($user,$roles,$request);
+                //return redirect(RouteServiceProvider::HOME);
             }
         }
 
