@@ -42,6 +42,7 @@ class Article extends Model
         'status',
         'allow_comment',
         'image',
+        'categorie_id',
         'author_id',
     ];
 

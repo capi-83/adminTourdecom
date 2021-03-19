@@ -8,6 +8,13 @@ return [
         ],
     'myAccount' => "Mon compte",
     'logout' => "Déconnexion",
+    'administration' => "Administration",
+    'signin' => "S'inscrire",
+    'login' => "Connexion",
+    'showingTo' => "Affichage de",
+    'to' => "à",
+    'of' => "sur",
+    'results'=> "résultats",
     'menu' => [
         'dashboard' => "Tableaux de bord",
         'users' => [

@@ -8,6 +8,7 @@ use App\Http\Requests\Admin\Profile\UpdateRequest;
 use App\Http\ResponseObject;
 use App\Models\User;
 use App\Notifications\UsersNotification;
+use App\Repositories\UserRepository;
 use App\Rights\ProfileRights;
 use App\Role\RoleChecker;
 use Exception;
@@ -21,16 +22,19 @@ use Illuminate\Support\Facades\Notification;
 class ProfileController extends Controller
 {
     private $spec;
+    protected $userRepository;
 
     /**
      * Create a new controller instance.
      *
+     * @param UserRepository $userRepository
      * @return void
      */
-    public function __construct()
+    public function __construct(UserRepository $userRepository)
     {
         $this->middleware('auth');
         $this->spec = new ProfileRights();
+        $this->userRepository = $userRepository;
     }
 
     /**
@@ -41,7 +45,7 @@ class ProfileController extends Controller
     public function index()
     {
 
-        $users = User::all();
+        $users = $this->userRepository->getAll();
         $admins = [];
         $webUsers = [];
 

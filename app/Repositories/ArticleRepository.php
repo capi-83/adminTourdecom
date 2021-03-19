@@ -11,7 +11,7 @@ class ArticleRepository
     /**
      * @return mixed
      */
-    protected function queryActive()
+    public function queryActive()
     {
         return Article::select(
             'id',
@@ -19,7 +19,10 @@ class ArticleRepository
             'intro_img',
             'title',
             'intro_text',
-            'author_id')
+            'categorie_id',
+            'author_id',
+            'updated_at')
+            ->with('categorie:id,title')
             ->with('author:id,name')
             ->whereStatus("published");
     }
@@ -57,15 +60,16 @@ class ArticleRepository
             ->firstWhere('id', '>', $id);
     }
 
+
     /**
      * @param $nbrPages
-     * @param $category_slug
+     * @param $idCategory
      * @return mixed
      */
-    public function getActiveOrderByDateForCategory($nbrPages, $category_slug)
+    public function getActiveOrderByDateForCategory($nbrPages, $idCategory)
     {
         return $this->queryActiveOrderByDate()
-            ->whereCategory($category_slug)->paginate($nbrPages);
+            ->where('categorie_id','=',$idCategory)->paginate($nbrPages);
     }
 
     /**
@@ -76,7 +80,7 @@ class ArticleRepository
     public function getActiveOrderByDateForAuthor($nbrPages, $author_id)
     {
         return $this->queryActiveOrderByDate()
-            ->whereAuthor($author_id)->paginate($nbrPages);
+            ->where('author_id','=',$author_id)->paginate($nbrPages);
     }
 
     /**
@@ -115,6 +119,28 @@ class ArticleRepository
     }
 
     /**
+     * @param $idCategory
+     * @return mixed
+     */
+    public function getArticleByCategory($idCategory)
+    {
+
+        return  Article::select(
+            'id',
+            'slug',
+            'intro_img',
+            'title',
+            'intro_text',
+            'status',
+            'categorie_id',
+            'author_id')
+            ->with('categorie:id,title')
+            ->with('author:id,name')
+            ->where('categorie_id','=',$idCategory)
+            ->get();
+    }
+
+    /**
      * @param $nbrPages
      * @return mixed
      */
@@ -126,6 +152,6 @@ class ArticleRepository
     //Les heros sont les 5 derniers articles créés ou modifiés
     public function getHeros()
     {
-        return $this->queryActive()->with('categorie')->latest('updated_at')->take(5)->get();
+        return $this->queryActive()->with('categorie')->where('intro_img','<>',null)->latest('updated_at')->take(5)->get();
     }
 }

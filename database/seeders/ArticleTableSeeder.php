@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Article;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -14,49 +15,20 @@ class ArticleTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('articles')->insert(
-            [
-                [
-                    'id' => 1,
-                    'title' => 'Article 1',
-                    'slug' => 'article-un',
-                    'author_id' => '8',
-                    'corrector_id' => '9',
-                    'validator_id' => '7',
-                    'categorie_id' => '1',
-                    'intro_text' => 'Intro 1',
-                    'intro_img' => '',
-                    'full_text' => 'blablabla sdsdfdfs d sdfsf sdfssdsff sdf ',
-                    'meta_description' => 'article-un',
-                    'meta_keywords' => 'article-un',
-                    'status' => 'published',
-                    'allow_comment' => 'yes',
-                    'published_at' => '2020-02-01 00:00:00',
-                    'updated_at' => '2020-02-01 00:00:00',
-                    'deleted_at' => '2020-02-01 00:00:00',
-                    'updated_at' => '2020-02-01 00:00:00'
-                ],
-                [
-                    'id' => 2,
-                    'title' => 'Article 2',
-                    'slug' => 'article-deux',
-                    'author_id' => '8',
-                    'corrector_id' => null,
-                    'validator_id' => null,
-                    'categorie_id' => '1',
-                    'intro_text' => 'Intro 2',
-                    'intro_img' => '',
-                    'full_text' => 'blablabla sdsdfdfs d sdfsf sdfssdsff sdf ',
-                    'meta_description' => 'article-deux',
-                    'meta_keywords' => 'article-deux',
-                    'status' => 'workInProgress',
-                    'allow_comment' => 'yes',
-                    'published_at' => '2020-02-02 00:00:00',
-                    'updated_at' => '2020-02-02 00:00:00',
-                    'deleted_at' => '2020-02-02 00:00:00',
-                    'updated_at' => '2020-02-02 00:00:00'
-                ],
-            ]
-        );
+        for ($i = 1; $i <= 20; $i++) {
+            Article::factory()->create( [
+                'title' => 'Article '.$i,
+                'slug' => 'article-'.$i,
+                'author_id' => '8',
+                'corrector_id' => '9',
+                'validator_id' => '7',
+                'categorie_id' => rand(1,4),
+                'intro_img' => "article{$i}.jpg",
+                'meta_description' => 'article '.$i,
+                'meta_keywords' => 'article '.$i,
+                'status' => 'published',
+                'allow_comment' => 'yes',
+            ]);
+        }
     }
 }

@@ -24,17 +24,16 @@ use Illuminate\Support\Facades\Route;
 */
 Auth::routes(['register' => false]);
 
-Route::get('/', [IndexController::class,'show'])->name('acceuil');
+Route::get('/', [IndexController::class,'show'])->name('home');
 
-//Dashboard
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')
-    ->middleware('check_user_role:' . DashboardRights::getRouteAccess());
-
+//dashboard
+Route::group(['middleware'=>['check_user_role:' . DashboardRights::getRouteAccess()]],function () {
+    Route::get('/dashboard', [DashboardController::class,'index'])->name('dashboard');
+});
 
 //Mon compte
 Route::group(['middleware'=>['check_user_role:' . MyAccountRights::getRouteAccess()]],function () {
     Route::get('/my-account/{user}', [ProfileController::class,'edit'])->name('myProfile.my-account');
-    Route::put('/profile/{user}/update', [ProfileController::class,'update'])->name('profile.update');
 });
 
 
@@ -47,6 +46,7 @@ Route::group(['middleware'=>['check_user_role:' . ProfileRights::getRouteAccess(
     Route::post('/profile/store', [ProfileController::class,'store'])->name('profile.store');
     Route::get('/profile/{user}/disabled', [ProfileController::class,'disabled'])->name('profile.disabled');
     Route::get('/profile/{user}/delete', [ProfileController::class,'destroy'])->name('profile.delete');
+    Route::put('/profile/{user}/update', [ProfileController::class,'update'])->name('profile.update');
 });
 
 //notifications

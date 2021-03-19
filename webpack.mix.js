@@ -15,4 +15,5 @@ mix.js('resources/js/app.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css')
     .sass('resources/sass/style_1.scss', 'public/css')
     .sass('resources/sass/front.scss', 'public/css')
-    .js("resources/js/spinner.js", "public/js");
+    .js("resources/js/spinner.js", "public/js")
+    .js("resources/js/front.js", "public/js");

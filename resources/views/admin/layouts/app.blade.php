@@ -102,7 +102,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
         <!-- Brand Logo -->
-        <a href="{{ route('dashboard') }}" class="brand-link bg-cyan">
+        <a href="{{ route('home') }}" class="brand-link bg-cyan">
             <img src="/images/tdc.jpg" alt="Tour de commandement Logo" class="brand-image img-circle elevation-3"
                  style="opacity: .8">
             <span class="brand-text font-weight-light">{{__('main.adminTitle.prefix')}} {{__('main.adminTitle.title')}}</span>

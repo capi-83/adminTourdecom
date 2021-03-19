@@ -30,7 +30,8 @@ class ProfileRights extends AbstractRights
         ],
         'update' => [
             UserRole::ROLE_SUPERADMIN => 'update',
-            UserRole::ROLE_COMMANDANT => 'update'
+            UserRole::ROLE_COMMANDANT => 'update',
+            UserRole::ROLE_GARDIEN => 'update'
         ],
         'disabled' => [
             UserRole::ROLE_SUPERADMIN => 'disabled',

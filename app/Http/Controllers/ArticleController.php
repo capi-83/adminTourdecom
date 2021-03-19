@@ -34,9 +34,6 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $articles = $this->articleRepository->getActiveOrderByDate($this->nbrPages);
-        $heros = $this->articleRepository->getHeros();
-        return view('article.list', compact('articles', 'heros'));
     }
 
     /**
