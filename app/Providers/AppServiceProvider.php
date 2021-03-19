@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Http\Middleware\CheckUserRole;
 use App\Role\RoleChecker;
+use Carbon\Carbon;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
@@ -31,6 +32,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Carbon::setUTF8(true);
+        Carbon::setLocale(config('app.locale'));
+        setlocale(LC_TIME, config('app.locale'));
 //        Blade::if('admin', function () {
 //            return auth()->user()->role === 'superadmin' || auth()->user()->role === 'commandant';
 //        });

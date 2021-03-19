@@ -10,5 +10,6 @@ return [
     'dashboard' => 'dashboard',
     'myProfile' => 'myProfile',
     'profile' => 'profile',
-    'notifications'=>'notifications'
+    'notifications'=>'notifications',
+    'article'=>'article'
 ];

@@ -53,6 +53,11 @@ class UsersTableSeeder extends Seeder
             'roles' => '["'.UserRole::ROLE_REDAC.'"]'
         ],
         [
+            'name' => 'Correcteur',
+            'email' => 'correcteur@tourdecom.fr',
+            'roles' => '["'.UserRole::ROLE_CORRECTOR.'"]'
+        ],
+        [
             'name' => 'James Magick',
             'email' => 'membre@tourdecom.fr',
             'roles' => '["'.UserRole::ROLE_MEMBRE.'"]'
