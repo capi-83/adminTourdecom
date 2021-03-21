@@ -94,7 +94,7 @@
                         <a class="nav-link" href="{{ route('home') }}">Home <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item ">
-                        <a class="nav-link" href="#">Qui sommes-nous? <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="#">Qui sommes-nous ? <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item ">
                         <a class="nav-link" href="#">Nos articles <span class="sr-only">(current)</span></a>
@@ -103,10 +103,10 @@
                         <a class="nav-link" href="#">le guide du commander <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item ">
-                        <a class="nav-link" href="#">Evalutation des decks <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="#">Evaluation des decks <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item ">
-                        <a class="nav-link" href="#">le week-end de la tour <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="#">le week-end de la Tour <span class="sr-only">(current)</span></a>
                     </li>
 {{--                    <li class="nav-item dropdown">--}}
 {{--                        <a class="nav-link dropdown-toggle" href="#" id="dropdownMenuButton2" data-toggle="dropdown"--}}
