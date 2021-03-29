@@ -9,15 +9,16 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{__('main.title')}}</title>
-    <link href="css/media_query.css" rel="stylesheet" type="text/css"/>
-    <link href="css/bootstrap.css" rel="stylesheet" type="text/css"/>
-    <link href="css/animate.css" rel="stylesheet" type="text/css"/>
-    <link href="css/owl.carousel.css" rel="stylesheet" type="text/css"/>
-    <link href="css/owl.theme.default.css" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset('css/media_query.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset('css/animate.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset('css/owl.carousel.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset('css/owl.theme.default.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset('css/magic-font.css') }}" rel="stylesheet" type="text/css"/>
     <!-- Bootstrap CSS -->
-    <link href="css/style_1.css" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset('css/style_1.css') }}" rel="stylesheet" type="text/css"/>
 
-    <link rel="stylesheet" href="/css/front.css">
+    <link rel="stylesheet" href="{{ asset('css/front.css') }}">
 @yield('css')
     <!-- Modernizr JS -->
     <script src="{{ asset('js/modernizr-3.5.0.min.js') }}"></script>

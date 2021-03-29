@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\NotificationsController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\IndexController;
+use App\Http\Controllers\CommanderMixController;
 use App\Rights\NotificationRights;
 use App\Rights\ArticleRights;
 use App\Rights\DashboardRights;
@@ -28,6 +29,9 @@ Auth::routes(['register' => false]);
 
 Route::get('/', [IndexController::class,'show'])->name('home');
 Route::get('/articles/{article}', [ArticleController::class,'show'])->name('article.show');
+
+Route::get('/commandermix', [CommanderMixController::class, 'show'])->name('commandermix.show');
+Route::get('/commandermix/{nbplayer}', [CommanderMixController::class, 'gamble'])->name('commandermix.gamble');
 
 //ADMIN
 Route::prefix('admin')->group(function () {
