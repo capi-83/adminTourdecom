@@ -94,19 +94,19 @@
                         <a class="nav-link" href="{{ route('home') }}">Home <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item ">
-                        <a class="nav-link" href="#">Qui sommes-nous ? <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="#">{{ __('home.whoWeAre') }}<span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item ">
-                        <a class="nav-link" href="#">Nos articles <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="#">{{ __('home.ourArticles') }}<span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item ">
-                        <a class="nav-link" href="#">le guide du commander <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="#">{{ __('home.commanderGuide') }}<span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item ">
-                        <a class="nav-link" href="#">Evaluation des decks <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="#">{{ __('home.decksEvaluation') }}<span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item ">
-                        <a class="nav-link" href="#">le week-end de la Tour <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="#">{{ __('home.tourWeekend') }}<span class="sr-only">(current)</span></a>
                     </li>
 {{--                    <li class="nav-item dropdown">--}}
 {{--                        <a class="nav-link dropdown-toggle" href="#" id="dropdownMenuButton2" data-toggle="dropdown"--}}
@@ -129,11 +129,8 @@
             <div class="col-12 spdp_right py-5"><img src="{{ asset('images/logoTdc.png') }}" alt="img" class="footer_logo"/></div>
             <div class="clearfix"></div>
             <div class="col-12 col-md-12 col-lg-6">
-                <div class="footer_main_title py-3"> A propos</div>
-                <div class="footer_sub_about pb-3"> Lorem Ipsum is simply dummy text of the printing and typesetting
-                    industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an
-                    unknown printer took a galley of type and scrambled it to make a type specimen book.
-                </div>
+                <div class="footer_main_title py-3"> {{ __('main.footer.aboutTitle') }}</div>
+                <div class="footer_sub_about pb-3">{{ __('main.footer.aboutContent') }}</div>
                 <div class="footer_mediya_icon">
                     <div class="text-center d-inline-block">
                         <a href="https://www.youtube.com/channel/UCPGqSC4lMaa3SVsVhMddX3Q" target="_blank"
