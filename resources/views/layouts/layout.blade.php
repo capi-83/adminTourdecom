@@ -94,7 +94,7 @@
                         <a class="nav-link" href="{{ route('home') }}">Home <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item ">
-                        <a class="nav-link" href="#">{{ __('home.whoWeAre') }}<span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="{{ route('who-we-are') }}">{{ __('home.whoWeAre') }}<span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item ">
                         <a class="nav-link" href="#">{{ __('home.ourArticles') }}<span class="sr-only">(current)</span></a>

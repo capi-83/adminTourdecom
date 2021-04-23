@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\NotificationsController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\IndexController;
+use App\Http\Controllers\WhoWeAreController;
 use App\Rights\NotificationRights;
 use App\Rights\ArticleRights;
 use App\Rights\DashboardRights;
@@ -27,6 +28,7 @@ Auth::routes(['register' => false]);
 // FRONT
 
 Route::get('/', [IndexController::class,'show'])->name('home');
+Route::get('/qui-nous-sommes', [WhoWeAreController::class, 'index'])->name('who-we-are');
 Route::get('/articles/{article}', [ArticleController::class,'show'])->name('article.show');
 
 //ADMIN
